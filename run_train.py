@@ -30,11 +30,17 @@ def main():
     ap.add_argument("--steps", type=int, default=None)
     ap.add_argument("--lr", type=float, default=None, help="覆盖学习率（调参敏感性实验用）")
     ap.add_argument("--tag", default="", help="运行目录后缀，用于区分调参实验")
+    ap.add_argument("--val-every", type=int, default=None, help="验证间隔（默认 2000 次更新）")
+    ap.add_argument("--val-mode", choices=["balanced", "full"], default="balanced",
+                    help="balanced: 每例固定一个场景；full: 每例全部场景")
     args = ap.parse_args()
 
     root = os.path.dirname(os.path.abspath(__file__))
     out = os.path.join(root, args.out)
     cfg = Config()
+    cfg.val_mode = args.val_mode
+    if args.val_every is not None:
+        cfg.val_every = args.val_every
     if args.steps:
         cfg.max_steps = args.steps
     if args.lr:

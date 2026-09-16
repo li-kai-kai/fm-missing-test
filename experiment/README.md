@@ -85,3 +85,30 @@ python3 run_report.py  --out experiment
 * 划分种子 42，训练种子 0/1/2，初始噪声按「病例 ID + eval_seed」固定。
 * 数据增强与场景采样由 `(seed, step)` 完全决定，可重放。
 * GPU 上 cudnn 不保证逐比特可复现；同一配置重复运行可能有极小数值差异。
+
+## 后续训练的验证安排（2026-09-17）
+
+已保存的本轮报告和运行配置记录的是旧协议：每 1000 步验证全部 20 病例 × 3 场景。
+后续 `run_train.py` 默认使用以下安排，不能将新旧协议下的 checkpoint 选择分数直接比较：
+
+* 每 2000 次更新验证一次，最后一步总会验证。每例只评估一个固定场景。
+* 用 `split_seed` 将排序后的验证病例打乱，再循环分配 C0/C1/C2；20 例分为 7/7/6，
+  与训练种子、模型和数据加载顺序无关。分配表写入每次运行的 `meta.json`。
+* 仍按各场景病例平均 Dice 的均值选 best；FM 仍运行完整 16 步生成。
+* step 0 只检查每个场景一例，记录为 `smoke`，不参与 checkpoint 选择。
+* 训练结束后，用选定的 best 对全部验证病例和场景再评价一次，记录为 `val_full`，
+  明细保存到 `best_full_validation.json`，不重新选择 checkpoint。
+* `result.json` 中 `train_minutes` 为兼容原脚本仍表示总运行时间；
+  `validation_minutes` 单独统计上述验证时间，`best_full_val_score` 为最终完整验证 Dice。
+* 正式测试 `run_eval.py` 继续逐例评估所有场景。
+
+默认 10000 步共评估 3 + 5×20 + 60 = 163 个病例—场景组合，旧协议为 660 个。
+按本轮 FM 速度估算，验证约从 65 分钟降至 16 分钟（包含最终完整验证，实际耗时需实测）。
+使用新 tag 保存后续运行，例如：
+
+```bash
+python3 run_train.py --method B --seed 0 --tag _balanced_val
+```
+
+可用 `--val-every` 改变间隔，`--val-mode full` 恢复训练期间每例全部场景的评价。
+这些选项不会改变当前的三种输入场景或 WT 二分类目标。

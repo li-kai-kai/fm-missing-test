@@ -53,7 +53,8 @@ class Config:
     lr: float = 1e-4
     weight_decay: float = 1e-5
     max_steps: int = 10_000      # 每个模型 10,000 次优化器更新
-    val_every: int = 1_000
+    val_every: int = 2_000
+    val_mode: str = "balanced"  # 每例固定一个场景；full 可恢复每例全部场景
     seeds: tuple = (0, 1, 2)
     main_seed: int = 0
 

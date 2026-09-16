@@ -151,21 +151,31 @@ def main():
 
     # 4 训练
     A("\n## 4. 训练\n")
+    run_meta = {k: load_json(os.path.join(out, "runs", k, "meta.json"), {}) for k in runs}
+    intervals = sorted({m.get("val_every", 1000) for m in run_meta.values()})
+    has_balanced = any(m.get("val_mode") == "balanced" for m in run_meta.values())
     A(table([
         ["patch 尺寸", "64×64×64"],
         ["有效 batch size", 4],
         ["patch 采样", "50% 围绕肿瘤，50% 随机脑区，两模型一致"],
         ["优化器 / 学习率 / weight decay", "AdamW / 1e-4 / 1e-5"],
         ["每个模型预算", "10,000 次优化器更新"],
-        ["验证频率", "每 1,000 次更新（走完整生成过程）"],
-        ["checkpoint 选择", "验证集三场景平均病例 Dice 最大者，两模型同规则"],
+        ["验证频率", " / ".join(f"每 {n:,} 次更新" for n in intervals) + "（走完整生成过程；具体见运行配置）"],
+        ["checkpoint 选择", "固定验证安排下各场景平均病例 Dice 的均值最大者"],
     ], ["参数", "值"]))
+    if has_balanced:
+        A("\n包含 balanced 验证运行：每例固定一个场景，step 0 少量检查不参与选择；"
+          "训练后对 best 另做全场景验证。选择得分与完整验证得分分别报告，"
+          "不同验证安排的选择得分不可直接比较。")
     if runs:
         A("\n" + table(
             [[k, r.get("params"), fmt(r.get("best_score")), r.get("best_step"),
-              f"{r.get('train_minutes',0):.1f}", f"{r.get('peak_gpu_gb',0):.2f}"]
+              f"{r.get('train_minutes',0):.1f}", f"{r.get('peak_gpu_gb',0):.2f}",
+              run_meta[k].get("val_mode", "full"), fmt(r.get("best_full_val_score")),
+              fmt(r.get("validation_minutes"), 1)]
              for k, r in sorted(runs.items())],
-            ["运行", "参数量", "最佳验证得分", "对应 step", "训练用时(分)", "峰值显存(GB)"]))
+            ["运行", "参数量", "最佳选择得分", "对应 step", "总用时含验证(分)", "峰值显存(GB)",
+             "验证安排", "best 完整验证得分", "验证用时(分)"]))
 
     # 5 测试结果
     A(f"\n## 5. 测试结果（{args.split}）\n")

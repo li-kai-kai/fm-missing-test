@@ -27,7 +27,7 @@ SERIES_LABEL = {"A": "A 直接分割", "B": "B FM 生成"}
 ACCENT = "#1baf7a"
 CRITICAL = "#d03b3b"
 
-SCEN_LABEL = {"C0": "C0 完整模态", "C1": "C1 缺 T1ce（主要）", "C2": "C2 T2+FLAIR"}
+SCEN_LABEL = {"C0": "C0 完整模态", "C1": "C1 缺 T1ce（主要比较）", "C2": "C2 T2+FLAIR"}
 
 
 _CJK_CANDIDATES = [
@@ -114,7 +114,15 @@ def draw_slice(ax, bg, overlays=(), title="", axis=2, idx=None):
     sl = [slice(None)] * 3
     sl[axis] = idx
     img = np.rot90(bg[tuple(sl)])
-    ax.imshow(img, cmap="gray", interpolation="nearest")
+    # 以非零（脑区）体素的 2–98 百分位作为显示窗，避免脑外置零把对比度压扁
+    nz = img[img != 0]
+    if nz.size > 100:
+        vmin, vmax = np.percentile(nz, 2), np.percentile(nz, 98)
+        if vmax <= vmin:
+            vmin, vmax = float(nz.min()), float(nz.max())
+        ax.imshow(img, cmap="gray", interpolation="nearest", vmin=vmin, vmax=vmax)
+    else:
+        ax.imshow(img, cmap="gray", interpolation="nearest")
     hold = np.rot90(np.zeros_like(img))
     for mask, color, label in overlays:
         m = np.rot90(mask[tuple(sl)].astype(float))

@@ -153,7 +153,10 @@ def predict_volume_B(model, mri: torch.Tensor, avail: torch.Tensor, cfg: Config,
     dt = 1.0 / steps
     states = {}
     if collect_states:
-        states[0.0] = y.argmax(0).cpu().numpy().astype(np.uint8)
+        # 中间状态记录**连续**前景通道 y[1]−y[0]，不是 argmax。
+        # 中途 argmax 会把几乎是噪声的状态说成“全脑都是肿瘤”，那是错的读法：
+        # 只有全部更新结束后 y≈y1，argmax 才是分割。
+        states[0.0] = (y[1] - y[0]).cpu().numpy().astype(np.float32)
 
     for k in range(steps):
         t = k / steps
@@ -162,7 +165,7 @@ def predict_volume_B(model, mri: torch.Tensor, avail: torch.Tensor, cfg: Config,
         if collect_states:
             frac = (k + 1) / steps
             if any(abs(frac - s) < 1e-9 for s in (0.25, 0.5, 0.75, 1.0)):
-                states[frac] = y.argmax(0).cpu().numpy().astype(np.uint8)
+                states[frac] = (y[1] - y[0]).cpu().numpy().astype(np.float32)
 
     pred = y.argmax(dim=0).cpu().numpy().astype(np.uint8)  # 全部更新结束后才离散化
     if collect_states:

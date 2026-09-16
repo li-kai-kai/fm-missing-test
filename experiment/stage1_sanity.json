@@ -5,7 +5,7 @@
     "BraTS20_Training_022",
     "BraTS20_Training_024"
   ],
-  "steps": 300,
+  "steps": 1500,
   "data_diagnostics": {
     "seg_unique_in_patch": [
       0,
@@ -30,17 +30,17 @@
   },
   "overfit_A": {
     "patch_dice": {
-      "BraTS20_Training_015": 0.9778967946309236,
-      "BraTS20_Training_020": 0.9690342053903713,
-      "BraTS20_Training_022": 0.9791531807214735,
-      "BraTS20_Training_024": 0.9511310613667238
+      "BraTS20_Training_015": 0.9999186785746746,
+      "BraTS20_Training_020": 0.9999597173771179,
+      "BraTS20_Training_022": 0.999970189297958,
+      "BraTS20_Training_024": 0.9999387187312326
     },
     "volume": {
       "BraTS20_Training_015": {
-        "dice": 0.5671552621480584,
-        "recall": 0.9850263794328222,
-        "hd95": 117.350330131736,
-        "pred_voxels": 309906,
+        "dice": 0.4963979661500525,
+        "recall": 0.9720880857551063,
+        "hd95": 143.2131278898691,
+        "pred_voxels": 365408,
         "gt_voxels": 125287,
         "pred_empty": false,
         "gt_empty": false,
@@ -49,10 +49,10 @@
         "both_empty": false
       },
       "BraTS20_Training_020": {
-        "dice": 0.5685586950285147,
-        "recall": 0.8855841753237512,
-        "hd95": 146.66969693839283,
-        "pred_voxels": 371586,
+        "dice": 0.5040022654648979,
+        "recall": 0.8560751387505336,
+        "hd95": 134.71822445385777,
+        "pred_voxels": 421112,
         "gt_voxels": 175675,
         "pred_empty": false,
         "gt_empty": false,
@@ -61,10 +61,10 @@
         "both_empty": false
       },
       "BraTS20_Training_022": {
-        "dice": 0.3557600344729734,
-        "recall": 0.9938489092457207,
-        "hd95": 135.93343959005193,
-        "pred_voxels": 312470,
+        "dice": 0.32227396008515685,
+        "recall": 0.9733697407440031,
+        "hd95": 133.46497666928664,
+        "pred_voxels": 343358,
         "gt_voxels": 68118,
         "pred_empty": false,
         "gt_empty": false,
@@ -73,10 +73,10 @@
         "both_empty": false
       },
       "BraTS20_Training_024": {
-        "dice": 0.4443352068905983,
-        "recall": 0.9688790822675604,
-        "hd95": 137.6263056250512,
-        "pred_voxels": 321405,
+        "dice": 0.38919230039701486,
+        "recall": 0.933376556830184,
+        "hd95": 166.667333332,
+        "pred_voxels": 363046,
         "gt_voxels": 95627,
         "pred_empty": false,
         "gt_empty": false,
@@ -89,17 +89,17 @@
   },
   "overfit_B": {
     "patch_dice": {
-      "BraTS20_Training_015": 0.793124950035974,
-      "BraTS20_Training_020": 0.7752718755228375,
-      "BraTS20_Training_022": 0.7809924765134683,
-      "BraTS20_Training_024": 0.6850213200622379
+      "BraTS20_Training_015": 0.9696005825038083,
+      "BraTS20_Training_020": 0.9631001338752475,
+      "BraTS20_Training_022": 0.9716651128099945,
+      "BraTS20_Training_024": 0.9444349752854951
     },
     "volume": {
       "BraTS20_Training_015": {
-        "dice": 0.19047693492220447,
-        "recall": 0.7779897355671378,
-        "hd95": 131.4762335937564,
-        "pred_voxels": 898165,
+        "dice": 0.05160360782966889,
+        "recall": 0.9834060995953291,
+        "hd95": 130.06152390311286,
+        "pred_voxels": 4649883,
         "gt_voxels": 125287,
         "pred_empty": false,
         "gt_empty": false,
@@ -108,10 +108,10 @@
         "both_empty": false
       },
       "BraTS20_Training_020": {
-        "dice": 0.2140484212317669,
-        "recall": 0.6730155115981216,
-        "hd95": 127.1573827978541,
-        "pred_voxels": 929047,
+        "dice": 0.06428982551042499,
+        "recall": 0.8866486409563114,
+        "hd95": 126.73200069437868,
+        "pred_voxels": 4669944,
         "gt_voxels": 175675,
         "pred_empty": false,
         "gt_empty": false,
@@ -120,10 +120,10 @@
         "both_empty": false
       },
       "BraTS20_Training_022": {
-        "dice": 0.1154465507686311,
-        "recall": 0.7782964855104377,
-        "hd95": 126.60213262247257,
-        "pred_voxels": 850333,
+        "dice": 0.027312510046763862,
+        "recall": 0.9827652015619953,
+        "hd95": 123.664869708418,
+        "pred_voxels": 4833958,
         "gt_voxels": 68118,
         "pred_empty": false,
         "gt_empty": false,
@@ -132,10 +132,10 @@
         "both_empty": false
       },
       "BraTS20_Training_024": {
-        "dice": 0.1458125193427314,
-        "recall": 0.7341127505829943,
-        "hd95": 146.63219291819925,
-        "pred_voxels": 867267,
+        "dice": 0.03887795665949277,
+        "recall": 0.9482154621602685,
+        "hd95": 145.65953452323492,
+        "pred_voxels": 4568970,
         "gt_voxels": 95627,
         "pred_empty": false,
         "gt_empty": false,

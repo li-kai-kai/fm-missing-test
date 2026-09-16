@@ -8,8 +8,13 @@
 -- 数值自检：滑窗速度场拼装与 Euler 积分 --
   [自检 a] oracle 速度场积分复原 y1：最大绝对误差=1.669e-06，argmax 完全一致=True
   [自检 b] 与解析解逐体素一致：最大绝对误差=8.345e-07
+/SimCLR/code/fm_missing_mri_test/run_sanity.py:206: UserWarning: Creating a tensor from a list of numpy.ndarrays is extremely slow. Please consider converting the list to a single numpy.ndarray with numpy.array() before converting to a tensor. (Triggered internally at /pytorch/torch/csrc/utils/tensor_new.cpp:253.)
+  avail = torch.tensor([avail_vector("C0")] * mri.shape[0], device=device)
 
 == 过拟合检查: 方法 A，4 个病例固定 patch，1500 次更新，完整模态，无增强 ==
+/SimCLR/code/fm_missing_mri_test/run_sanity.py:229: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  log(f"   step {step:>5d} loss={float(loss):.4f} {msg}")
    step     0 loss=1.4185 dice=0.6981 ce=0.7204
    step   150 loss=0.4136 dice=0.2520 ce=0.1616
    step   300 loss=0.3235 dice=0.2017 ce=0.1218
@@ -44,3 +49,5 @@
    完整体积 BraTS20_Training_020: Dice=0.0643 预测体素=4669944 真实体素=175675 漏检=False
    完整体积 BraTS20_Training_022: Dice=0.0273 预测体素=4833958 真实体素=68118 漏检=False
    完整体积 BraTS20_Training_024: Dice=0.0389 预测体素=4568970 真实体素=95627 漏检=False
+
+产物 -> /SimCLR/code/fm_missing_mri_test/experiment/stage1_sanity.json

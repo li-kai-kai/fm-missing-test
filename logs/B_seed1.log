@@ -1,0 +1,14 @@
+== 训练 方法B seed=1 设备=cuda ==
+[B seed=1] 参数量 = 1,405,602
+[B s1] step      0 val score=0.0246 C0=0.0245 C1=0.0247 C2=0.0245 (12.1 min)
+[B s1] step   1000 val score=0.6347 C0=0.6110 C1=0.6303 C2=0.6627 (22.8 min)
+[B s1] step   2000 val score=0.7345 C0=0.7111 C1=0.7409 C2=0.7515 (29.9 min)
+[B s1] step   3000 val score=0.6524 C0=0.6588 C1=0.6526 C2=0.6459 (36.9 min)
+[B s1] step   4000 val score=0.3322 C0=0.3152 C1=0.3122 C2=0.3693 (44.0 min)
+[B s1] step   5000 val score=0.7136 C0=0.7237 C1=0.7135 C2=0.7037 (51.1 min)
+[B s1] step   6000 val score=0.7111 C0=0.7159 C1=0.7182 C2=0.6991 (58.2 min)
+[B s1] step   7000 val score=0.6701 C0=0.6647 C1=0.6887 C2=0.6569 (65.2 min)
+[B s1] step   8000 val score=0.7455 C0=0.7563 C1=0.7446 C2=0.7354 (72.3 min)
+[B s1] step   9000 val score=0.7449 C0=0.7537 C1=0.7393 C2=0.7417 (79.4 min)
+[B s1] step  10000 val score=0.7147 C0=0.7130 C1=0.7169 C2=0.7143 (86.4 min)
+[B s1] 完成 best=0.7455@8000 用时86.4min 峰值显存7.95GB

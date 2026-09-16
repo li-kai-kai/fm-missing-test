@@ -1,0 +1,8 @@
+BraTS20_Training_027: A=0.6825 B=0.6662
+BraTS20_Training_035: A=0.8651 B=0.7167
+BraTS20_Training_051: A=0.9182 B=0.8699
+BraTS20_Training_052: A=0.8665 B=0.8033
+BraTS20_Training_054: A=0.9115 B=0.7430
+-> /SimCLR/code/fm_missing_mri_test/experiment/figures/fig_cases.png
+-> /SimCLR/code/fm_missing_mri_test/experiment/figures/fig_best_worst.png
+-> /SimCLR/code/fm_missing_mri_test/experiment/figures/fig_fm_states.png

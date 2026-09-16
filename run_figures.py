@@ -43,8 +43,7 @@ def fig_training(curves, out):
             ax.plot(x, y, ls, color=SERIES[m], lw=2.0 if s == 0 else 1.4,
                     alpha=1.0 if s == 0 else 0.75, marker="o", ms=3.5,
                     label=f"{SERIES_LABEL[m]}" if s == 0 else None)
-        title = SCEN_LABEL[scen] + ("（主要比较）" if scen == PRIMARY_SCENARIO else "")
-        ax.set_title(title, color=INK if scen == PRIMARY_SCENARIO else INK)
+        ax.set_title(SCEN_LABEL[scen], color=INK)
         ax.set_xlabel("优化器更新次数")
         _strip(ax)
     axes[0].set_ylabel("验证集平均病例 Dice")

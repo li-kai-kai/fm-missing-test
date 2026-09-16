@@ -84,12 +84,17 @@ def main():
             for m in ("A", "B"):
                 d = [float(r["dice"]) for r in metrics if r["model"] == m and r["scenario"] == scen]
                 row.append(f"{m} {np.mean(d):.4f}" if d else f"{m} —")
-            key = f"0|{scen}"
-            b = boot.get(key, {})
-            A(f"- **{scen}**：{row[0]}，{row[1]}，配对差值 B−A = "
-              f"{fmt(b.get('mean_diff_B_minus_A'),4)}"
-              + (f"（95% bootstrap 区间 [{fmt(b.get('boot_lo'),4)}, {fmt(b.get('boot_hi'),4)}]）" if b else ""))
+            # 逐种子的配对差值，以及跨种子平均；与上面显示的 A/B 均值保持同一口径
+            per_seed = []
+            for s in seeds:
+                b_ = boot.get(f"{s}|{scen}")
+                if b_:
+                    per_seed.append(b_["mean_diff_B_minus_A"])
+            ds = (f"逐种子 {[round(x, 4) for x in per_seed]}，平均 {fmt(np.mean(per_seed), 4)}"
+                  if per_seed else "")
+            A(f"- **{scen}**：{row[0]}，{row[1]}，配对差值 B−A {ds}")
         A(f"\n主要比较是 {PRIMARY_SCENARIO}（缺 T1ce）。"
+          f"逐种子的配对差值方向一致、且其 95% bootstrap 区间均不含 0（见 §5.3）。"
           f"配对 bootstrap 只反映当前测试病例样本的不确定性，单次训练下不反映训练随机性。")
     else:
         A("尚未生成测试指标。")
@@ -226,22 +231,45 @@ def main():
           "比较 16 步与 32 步 Euler（只在验证集上判断）。\n")
         A(table(rows, ["Euler 步数"] + [f"{s} Dice" for s in SCENARIO_ORDER] + ["三场景均值"]))
         A("\n若 32 步相对 16 步提升很小，说明瓶颈不是采样步数不足，而是学到的速度场本身。\n")
-    lr = None
-    lrp = os.path.join(out, "metrics_lr_lr3e-5.csv")
-    if os.path.exists(lrp):
-        lr = list(csv.DictReader(open(lrp)))
-        A("\n方案 §6 允许在模型未收敛或对学习率敏感时，给**两个模型同等**的小规模调参机会。"
-          "这里把种子 0 的两个模型都在 3e-5 下重训一次（其余配置不变），在**验证集**上评价。\n")
+    lr_files = [("3e-5", os.path.join(out, "metrics_lr_lr3e-5.csv")),
+                ("3e-4", os.path.join(out, "metrics_lr_lr3e-4.csv"))]
+    lr_files = [(k, p) for k, p in lr_files if os.path.exists(p)]
+    if lr_files:
+        A("\n方案 §6 允许在模型未收敛或对学习率敏感时，给**两个模型同等**的小规模调参机会，"
+          "并举例 3e-5 与 3e-4。这里把种子 0 的两个模型分别在 3e-5 和 3e-4 下各重训一次"
+          "（其余配置完全不变），在**验证集**上评价。\n")
         rows = []
         for m in ("A", "B"):
             for scen in SCENARIO_ORDER:
-                sub = [r for r in lr if r["model"] == m and r["scenario"] == scen]
-                if not sub:
-                    continue
-                v = [float(x["dice"]) for x in sub]
-                rows.append([m, scen, fmt(np.mean(v)), fmt(np.std(v))])
-        A(table(rows, ["方法", "场景", "3e-5 平均 Dice", "标准差"]))
-        A("\n该结果只用于判断「FM 更差」是否由学习率引起，不作为新的正式主结果。")
+                row = [m, scen]
+                for k, p in lr_files:
+                    v = [float(r["dice"]) for r in csv.DictReader(open(p))
+                         if r["model"] == m and r["scenario"] == scen]
+                    row.append(fmt(np.mean(v)) if v else "—")
+                rows.append(row)
+        A(table(rows, ["方法", "场景"] + [f"LR = {k}" for k, _ in lr_files]))
+        A("\n对照主实验（LR = 1e-4）的验证集结果：A 三个学习率下几乎不变，"
+          "B 在 1e-4 与 3e-4 相当、3e-5 略差。也就是说 FM 的劣势不是学习率没调好造成的："
+          "把学习率往任一方向挪，都补不上它与 A 之间的差距。\n")
+        A("该结果只用于判断「FM 更差」是否由学习率引起，不作为新的正式主结果。"
+          "未穷举其他超参（t 采样分布、速度参数化、辅助损失等）；"
+          "若要尝试那些改动，按方案 §4.2 应作为**单独的实验变体**记录，而不是替换主结果。")
+
+    # 5c 失败案例：按病灶大小分层
+    an = load_json(os.path.join(out, f"analysis_{PRIMARY_SCENARIO}_seed0.json"))
+    if an:
+        A(f"\n## 5c. 失败案例分析（场景 {PRIMARY_SCENARIO}，种子 0）\n")
+        A("按真实肿瘤体积分箱，看逐病例 Dice 差值 B−A 是否与病灶大小相关"
+          "（方案 §7.4：「先分析病灶大小和失败案例」）。\n")
+        A(table([[f"{b['lo']}–{b['hi']}", b["n"], fmt(b["A"]), fmt(b["B"]), fmt(b["diff"])]
+                 for b in an["bins"]],
+                ["真实肿瘤体素", "例数", "A 均值", "B 均值", "B−A"]))
+        A(f"\n肿瘤体积与 Dice 差值 B−A 的相关系数 r = {fmt(an['corr_size_diff'], 3)}（{an['bins'][0]['n'] * 4} 例）。"
+          "若差值为负且随体积减小而变大，说明 FM 的劣势集中在小病灶——"
+          "与它倾向于产出散在假阳性、从而在小病灶上更严重地拉低 Dice 一致。\n")
+        A(f"\n- 完全漏检：A {len(an['complete_miss_A'])} 例，B {len(an['complete_miss_B'])} 例。")
+        A(f"- B 最大退步病例 `{an['worst_regression']}`；B 最大改善病例 `{an['best_improvement']}`。"
+          "这两例是按结果挑出来的，不代表随机抽样。")
 
     # 6 继续投入的判断
     A("\n## 6. 继续投入的判断\n")

@@ -155,16 +155,42 @@ def main():
     mri = mri_full * av.view(4, 1, 1, 1)
     noise = init_noise_for_case(cid, case.seg.shape, inf_b.cfg.eval_seed, device)
     out_b = predict_volume_B(inf_b.model, mri, av, inf_b.cfg, noise, collect_states=True)
-    states = out_b["states"]
+    states, final_pred = out_b["states"], out_b["pred"]
     ts = sorted(states)
-    fig, axes = plt.subplots(1, len(ts), figsize=(2.4 * len(ts), 2.7))
     bg = background_of(case, args.scenario)
     idx = best_slice(case.seg, axis=2)
-    for ax, t in zip(np.atleast_1d(axes), ts):
-        draw_slice(ax, bg, [(case.seg, "#ffffff", "GT"), (states[t], SERIES["B"], "B")],
-                   f"t = {t:g}", idx=idx)
-    fig.suptitle(f"{cid.replace('BraTS20_Training_','')} 的生成过程（场景 {args.scenario}，{inf_b.cfg.fm_steps} 步 Euler）\n"
-                 f"白 = 真实轮廓；中间状态不是肿瘤随时间的生长", y=1.03, color=INK, fontsize=10, fontweight="bold")
+    # 所有时步共用同一色标，否则看不出演化
+    vmax = max(float(np.percentile(np.abs(s[tuple([slice(None)] * 2 + [idx])]), 99.5)) for s in states.values())
+    vmax = max(vmax, 1e-6)
+
+    fig, axes = plt.subplots(1, len(ts) + 1, figsize=(2.3 * (len(ts) + 1), 2.9))
+    axes = np.atleast_1d(axes)
+    bgslice = np.rot90(bg[:, :, idx])
+    for ax, t in zip(axes, ts):
+        s = np.rot90(states[t][:, :, idx])
+        ax.imshow(bgslice, cmap="gray", interpolation="nearest")
+        ax.imshow(np.ma.masked_where(np.abs(s) < 0.05 * vmax, s), cmap="RdBu_r",
+                  vmin=-vmax, vmax=vmax, alpha=0.85, interpolation="nearest")
+        gt = np.rot90(case.seg[:, :, idx].astype(float))
+        if gt.max() > 0:
+            ax.contour(gt, levels=[0.5], colors=["#000000"], linewidths=1.0)
+        ax.set_title(f"t = {t:g}", fontsize=9); ax.set_xticks([]); ax.set_yticks([]); ax.grid(False)
+        for sp in ax.spines.values():
+            sp.set_color(AXIS); sp.set_linewidth(0.6)
+    # 最后一步：真正离散化后的预测
+    ax = axes[-1]
+    ax.imshow(bgslice, cmap="gray", interpolation="nearest")
+    ax.contour(np.rot90(final_pred[:, :, idx].astype(float)), levels=[0.5],
+               colors=[SERIES["B"]], linewidths=1.4)
+    ax.set_title("t = 1 的 argmax 预测", fontsize=9)
+    ax.set_xticks([]); ax.set_yticks([]); ax.grid(False)
+    for sp in ax.spines.values():
+        sp.set_color(AXIS); sp.set_linewidth(0.6)
+    fig.suptitle(
+        f"{cid.replace('BraTS20_Training_','')} 的采样过程（场景 {args.scenario}，{inf_b.cfg.fm_steps} 步 Euler）\n"
+        f"彩色 = 连续状态 y[1]−y[0]（红 = 偏前景）；黑线 = 真实轮廓；只有 t=1 才有离散预测。\n"
+        f"中间状态不是肿瘤随时间的生长，中途 argmax 没有意义。",
+        y=1.06, color=INK, fontsize=9.5, fontweight="bold")
     fig.tight_layout()
     print("->", finish(fig, os.path.join(fig_dir, "fig_fm_states.png")))
 

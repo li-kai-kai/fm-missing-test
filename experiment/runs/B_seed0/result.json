@@ -1,0 +1,10 @@
+{
+  "method": "B",
+  "seed": 0,
+  "params": 1405602,
+  "best_score": 0.7755229906992565,
+  "best_step": 9000,
+  "train_minutes": 86.30093327363332,
+  "peak_gpu_gb": 7.946065408,
+  "run_dir": "/SimCLR/code/fm_missing_mri_test/experiment/runs/B_seed0"
+}

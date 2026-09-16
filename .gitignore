@@ -1,0 +1,17 @@
+# ---- 派生数据（体积大，可由 run_preprocess.py --out experiment 重建）----
+experiment/cache/
+experiment/predictions/
+
+# ---- 训练 checkpoint（每个 ~5MB，体积大且可重训）----
+*.pt
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+
+# ---- 试跑（dry-run）产物 ----
+_dryrun/
+
+# ---- 杂项 ----
+.DS_Store
+*.swp

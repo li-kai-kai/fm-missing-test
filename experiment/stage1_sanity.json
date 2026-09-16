@@ -1,0 +1,149 @@
+{
+  "cases": [
+    "BraTS20_Training_015",
+    "BraTS20_Training_020",
+    "BraTS20_Training_022",
+    "BraTS20_Training_024"
+  ],
+  "steps": 300,
+  "data_diagnostics": {
+    "seg_unique_in_patch": [
+      0,
+      1
+    ],
+    "seg_foreground_frac": 0.3987312316894531,
+    "onehot_sums_to_one": true,
+    "fg_channel_matches_seg": true,
+    "raw_t1ce_mean_in_ET": 697.5281982421875,
+    "raw_t1ce_mean_in_bg": 70.6069564819336,
+    "alignment_ok": true,
+    "patch_t1ce_mean_in_tumor": 0.02317930944263935,
+    "patch_t1ce_mean_in_bg": 0.23031459748744965,
+    "yt_at_t0_equals_y0": true,
+    "yt_at_t1_equals_y1": true,
+    "target_v_sign_ok": true
+  },
+  "numerical": {
+    "oracle_max_abs_err": 1.6689300537109375e-06,
+    "oracle_pred_equals_y1": true,
+    "decay_max_abs_err": 8.344650268554688e-07
+  },
+  "overfit_A": {
+    "patch_dice": {
+      "BraTS20_Training_015": 0.9778967946309236,
+      "BraTS20_Training_020": 0.9690342053903713,
+      "BraTS20_Training_022": 0.9791531807214735,
+      "BraTS20_Training_024": 0.9511310613667238
+    },
+    "volume": {
+      "BraTS20_Training_015": {
+        "dice": 0.5671552621480584,
+        "recall": 0.9850263794328222,
+        "hd95": 117.350330131736,
+        "pred_voxels": 309906,
+        "gt_voxels": 125287,
+        "pred_empty": false,
+        "gt_empty": false,
+        "complete_miss": false,
+        "hd95_failed": false,
+        "both_empty": false
+      },
+      "BraTS20_Training_020": {
+        "dice": 0.5685586950285147,
+        "recall": 0.8855841753237512,
+        "hd95": 146.66969693839283,
+        "pred_voxels": 371586,
+        "gt_voxels": 175675,
+        "pred_empty": false,
+        "gt_empty": false,
+        "complete_miss": false,
+        "hd95_failed": false,
+        "both_empty": false
+      },
+      "BraTS20_Training_022": {
+        "dice": 0.3557600344729734,
+        "recall": 0.9938489092457207,
+        "hd95": 135.93343959005193,
+        "pred_voxels": 312470,
+        "gt_voxels": 68118,
+        "pred_empty": false,
+        "gt_empty": false,
+        "complete_miss": false,
+        "hd95_failed": false,
+        "both_empty": false
+      },
+      "BraTS20_Training_024": {
+        "dice": 0.4443352068905983,
+        "recall": 0.9688790822675604,
+        "hd95": 137.6263056250512,
+        "pred_voxels": 321405,
+        "gt_voxels": 95627,
+        "pred_empty": false,
+        "gt_empty": false,
+        "complete_miss": false,
+        "hd95_failed": false,
+        "both_empty": false
+      }
+    },
+    "n_empty_predictions": 0
+  },
+  "overfit_B": {
+    "patch_dice": {
+      "BraTS20_Training_015": 0.793124950035974,
+      "BraTS20_Training_020": 0.7752718755228375,
+      "BraTS20_Training_022": 0.7809924765134683,
+      "BraTS20_Training_024": 0.6850213200622379
+    },
+    "volume": {
+      "BraTS20_Training_015": {
+        "dice": 0.19047693492220447,
+        "recall": 0.7779897355671378,
+        "hd95": 131.4762335937564,
+        "pred_voxels": 898165,
+        "gt_voxels": 125287,
+        "pred_empty": false,
+        "gt_empty": false,
+        "complete_miss": false,
+        "hd95_failed": false,
+        "both_empty": false
+      },
+      "BraTS20_Training_020": {
+        "dice": 0.2140484212317669,
+        "recall": 0.6730155115981216,
+        "hd95": 127.1573827978541,
+        "pred_voxels": 929047,
+        "gt_voxels": 175675,
+        "pred_empty": false,
+        "gt_empty": false,
+        "complete_miss": false,
+        "hd95_failed": false,
+        "both_empty": false
+      },
+      "BraTS20_Training_022": {
+        "dice": 0.1154465507686311,
+        "recall": 0.7782964855104377,
+        "hd95": 126.60213262247257,
+        "pred_voxels": 850333,
+        "gt_voxels": 68118,
+        "pred_empty": false,
+        "gt_empty": false,
+        "complete_miss": false,
+        "hd95_failed": false,
+        "both_empty": false
+      },
+      "BraTS20_Training_024": {
+        "dice": 0.1458125193427314,
+        "recall": 0.7341127505829943,
+        "hd95": 146.63219291819925,
+        "pred_voxels": 867267,
+        "gt_voxels": 95627,
+        "pred_empty": false,
+        "gt_empty": false,
+        "complete_miss": false,
+        "hd95_failed": false,
+        "both_empty": false
+      }
+    },
+    "n_empty_predictions": 0
+  }
+}

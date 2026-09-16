@@ -1,0 +1,46 @@
+=== 阶段一：固定 patch 调通 ===
+  [自检] patch 标签取值 [0, 1]，前景占比 0.3987
+  [自检] one-hot 合成和为 1：True；前景通道与 seg 一致：True
+  [自检] 原始 T1ce 均值 增强肿瘤(标签4)内=697.5 背景=70.6 -> 对齐正常=True
+  [自检] 预处理后 patch T1ce 均值 肿瘤整体内=0.023 背景=0.230（含水肿，偏暗属预期）
+  [自检] t=0 时 yt==y0: True；t=1 时 yt==y1: True；目标速度用 y1-y0: True
+
+-- 数值自检：滑窗速度场拼装与 Euler 积分 --
+  [自检 a] oracle 速度场积分复原 y1：最大绝对误差=1.669e-06，argmax 完全一致=True
+  [自检 b] 与解析解逐体素一致：最大绝对误差=8.345e-07
+
+== 过拟合检查: 方法 A，4 个病例固定 patch，300 次更新，完整模态，无增强 ==
+   step     0 loss=1.4185 dice=0.6981 ce=0.7204
+   step    30 loss=0.6491 dice=0.3641 ce=0.2850
+   step    60 loss=0.5165 dice=0.3039 ce=0.2126
+   step    90 loss=0.4697 dice=0.2820 ce=0.1877
+   step   120 loss=0.4387 dice=0.2655 ce=0.1732
+   step   150 loss=0.4139 dice=0.2520 ce=0.1618
+   step   180 loss=0.3949 dice=0.2419 ce=0.1530
+   step   210 loss=0.3732 dice=0.2296 ce=0.1435
+   step   240 loss=0.3562 dice=0.2207 ce=0.1355
+   step   270 loss=0.3393 dice=0.2105 ce=0.1288
+   step   299 loss=0.3246 dice=0.2025 ce=0.1221
+   训练 patch Dice: BraTS20_Training_015=0.9779 BraTS20_Training_020=0.9690 BraTS20_Training_022=0.9792 BraTS20_Training_024=0.9511
+   完整体积 BraTS20_Training_015: Dice=0.5672 预测体素=309906 真实体素=125287 漏检=False
+   完整体积 BraTS20_Training_020: Dice=0.5686 预测体素=371586 真实体素=175675 漏检=False
+   完整体积 BraTS20_Training_022: Dice=0.3558 预测体素=312470 真实体素=68118 漏检=False
+   完整体积 BraTS20_Training_024: Dice=0.4443 预测体素=321405 真实体素=95627 漏检=False
+
+== 过拟合检查: 方法 B，4 个病例固定 patch，300 次更新，完整模态，无增强 ==
+   step     0 loss=1.5134 mse=1.5134
+   step    30 loss=1.0764 mse=1.0764
+   step    60 loss=0.9719 mse=0.9719
+   step    90 loss=0.8724 mse=0.8724
+   step   120 loss=0.7199 mse=0.7199
+   step   150 loss=0.5679 mse=0.5679
+   step   180 loss=0.4710 mse=0.4710
+   step   210 loss=0.4195 mse=0.4195
+   step   240 loss=0.3258 mse=0.3258
+   step   270 loss=0.3571 mse=0.3571
+   step   299 loss=0.2867 mse=0.2867
+   训练 patch Dice: BraTS20_Training_015=0.7931 BraTS20_Training_020=0.7753 BraTS20_Training_022=0.7810 BraTS20_Training_024=0.6850
+   完整体积 BraTS20_Training_015: Dice=0.1905 预测体素=898165 真实体素=125287 漏检=False
+   完整体积 BraTS20_Training_020: Dice=0.2140 预测体素=929047 真实体素=175675 漏检=False
+   完整体积 BraTS20_Training_022: Dice=0.1154 预测体素=850333 真实体素=68118 漏检=False
+   完整体积 BraTS20_Training_024: Dice=0.1458 预测体素=867267 真实体素=95627 漏检=False

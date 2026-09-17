@@ -1,0 +1,18 @@
+{
+  "data_root": "/SimCLR/data/BraTS2020",
+  "n_labeled_cases": 369,
+  "shapes": {
+    "(240, 240, 155)": 369
+  },
+  "zooms": {
+    "(1.0, 1.0, 1.0)": 369
+  },
+  "label_values_global": {
+    "0.0": 3257699276,
+    "1.0": 8161996,
+    "2.0": 21302318,
+    "4.0": 7268410
+  },
+  "already_registered_and_isotropic": true,
+  "resampling_needed": false
+}

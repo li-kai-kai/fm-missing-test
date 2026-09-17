@@ -14,9 +14,9 @@ from collections import Counter
 import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from fmexp.config import Config, MODALITIES, SCENARIOS, save_config
+from fmexp.config import Config, MODALITIES, SCENARIOS, TASKS, save_config, load_config
 from fmexp.data import (LABEL_MAPPING, all_labeled_cases, case_id, load_case,
-                        make_splits, preprocess_case, select_cases)
+                        make_splits, preprocess_case, select_cases, MULTICLASS_LABEL_MAPPING)
 
 
 def audit(data_root: str, out_dir: str) -> dict:
@@ -45,12 +45,18 @@ def audit(data_root: str, out_dir: str) -> dict:
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--out", default="experiment")
+    ap.add_argument("--out", default=None)
+    ap.add_argument("--task", choices=TASKS, default="binary_wt")
+    ap.add_argument("--splits-from", help="复用已有患者划分 JSON；保持与旧实验一致")
     ap.add_argument("--force", action="store_true", help="重新预处理已缓存的病例")
     args = ap.parse_args()
 
-    cfg = Config(out_root=args.out)
-    out = os.path.join(os.path.dirname(os.path.abspath(__file__)), args.out)
+    cfg = Config(task=args.task, out_root=args.out or (
+        "experiment_multiclass" if args.task == "multiclass_missing_one" else "experiment"))
+    out = os.path.join(os.path.dirname(os.path.abspath(__file__)), cfg.out_root)
+    config_path = os.path.join(out, "config_preprocess.yaml")
+    if os.path.exists(config_path) and load_config(config_path).task != cfg.task:
+        raise ValueError("此目录已有其他任务，请为新实验使用独立 --out")
     cache = os.path.join(out, "cache")
     os.makedirs(out, exist_ok=True)
     os.makedirs(cache, exist_ok=True)
@@ -61,7 +67,8 @@ def main():
 
     # 标签映射表落盘（方案 §2.2）
     with open(os.path.join(out, "label_mapping.json"), "w") as f:
-        json.dump(LABEL_MAPPING, f, indent=2, ensure_ascii=False)
+        json.dump(MULTICLASS_LABEL_MAPPING if cfg.n_classes == 4 else LABEL_MAPPING,
+                  f, indent=2, ensure_ascii=False)
 
     print("\n== 选择病例与划分 ==")
     cases = select_cases(cfg.data_root, cfg.n_cases, cfg.split_seed)
@@ -73,6 +80,19 @@ def main():
         "n": {k: len(v) for k, v in splits.items()},
         **splits,
     }
+    if args.splits_from:
+        with open(args.splits_from) as f:
+            splits_doc = json.load(f)
+        splits = {k: splits_doc[k] for k in ("train", "val", "test")}
+        cases = [c for group in splits.values() for c in group]
+        if len(set(cases)) != len(cases):
+            raise ValueError("患者划分存在重复或交叉")
+        if not set(cases) <= set(all_labeled_cases(cfg.data_root)):
+            raise ValueError("划分包含不存在的病例")
+        cfg.n_train, cfg.n_val, cfg.n_test = (len(splits[k]) for k in ("train", "val", "test"))
+        cfg.n_cases = len(cases)
+        cfg.split_seed = splits_doc.get("split_seed", cfg.split_seed)
+        splits_doc["n"] = {k: len(v) for k, v in splits.items()}
     with open(os.path.join(out, "splits.json"), "w") as f:
         json.dump(splits_doc, f, indent=2, ensure_ascii=False)
     print({k: len(v) for k, v in splits.items()})
@@ -81,7 +101,7 @@ def main():
     metas = []
     for i, cid in enumerate(cases):
         m = preprocess_case(cfg.data_root, cid, cache, reorient_to=cfg.reorient_to,
-                            overwrite=args.force)
+                            overwrite=args.force, task=cfg.task)
         metas.append(m)
         if (i + 1) % 10 == 0 or i == len(cases) - 1:
             print(f"  {i+1}/{len(cases)} 完成，最近: {cid} 肿瘤体素={m['tumor_voxels']}")

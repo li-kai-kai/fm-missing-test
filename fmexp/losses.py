@@ -25,9 +25,15 @@ def ce_loss(logits: torch.Tensor, target_cls: torch.Tensor) -> torch.Tensor:
 
 
 def loss_A(logits: torch.Tensor, y1: torch.Tensor) -> tuple:
-    target_fg = y1[:, 1]
-    d = soft_dice_loss(logits, target_fg)
-    c = ce_loss(logits, target_fg)
+    if y1.shape[1] == 2:
+        d = soft_dice_loss(logits, y1[:, 1])
+    else:
+        # 每例各非背景互斥类别等权，先算 soft Dice 再平均；CE 覆盖全部四类。
+        probs, target = torch.softmax(logits, dim=1)[:, 1:], y1[:, 1:]
+        dims = tuple(range(2, probs.ndim))
+        d = 1 - ((2 * (probs * target).sum(dims) + 1e-6) /
+                 (probs.sum(dims) + target.sum(dims) + 1e-6)).mean()
+    c = ce_loss(logits, y1.argmax(dim=1))
     return d + c, {"dice": d.detach(), "ce": c.detach()}
 
 

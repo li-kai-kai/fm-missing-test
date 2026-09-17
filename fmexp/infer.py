@@ -58,7 +58,7 @@ def build_input_A(mri: torch.Tensor, avail: torch.Tensor) -> torch.Tensor:
 
 
 def build_input_B(yt: torch.Tensor, t: float, mri: torch.Tensor, avail: torch.Tensor) -> torch.Tensor:
-    """B 输入 = 4 MRI + 4 存在标记 + 2 noisy mask + 1 时间常量通道 = 11 通道。"""
+    """B 输入 = 4 MRI + 4 存在标记 + K noisy mask + 1 时间常量通道。"""
     shp = mri.shape[-3:]
     tc = torch.full((1, *shp), float(t), dtype=mri.dtype, device=mri.device)
     return torch.cat([mri, _expand_avail(avail, shp), yt, tc], dim=0)
@@ -69,14 +69,14 @@ def build_input_B(yt: torch.Tensor, t: float, mri: torch.Tensor, avail: torch.Te
 @torch.no_grad()
 def predict_volume_A(model, mri: torch.Tensor, avail: torch.Tensor, cfg: Config,
                      chunk: int = 32) -> np.ndarray:
-    """返回前景概率体积 [D,H,W] float32。融合连续分数后再取类别。"""
+    """二分类返回前景概率，多分类返回 argmax 标签；均先融合连续概率。"""
     model.eval()
     dev = mri.device
     cond = build_input_A(mri, avail)                      # [8,D,H,W]
     slices, wgt = plan_windows(cond.shape[-3:], cfg.sw_window, cfg.sw_overlap)
     wgt = wgt.to(dev)
 
-    acc = torch.zeros((2, *cond.shape[-3:]), dtype=torch.float32, device=dev)
+    acc = torch.zeros((cfg.n_classes, *cond.shape[-3:]), dtype=torch.float32, device=dev)
     wsum = torch.zeros((1, *cond.shape[-3:]), dtype=torch.float32, device=dev)
 
     ins = torch.empty((len(slices),) + tuple(cond.shape[:-3]) + (cfg.sw_window,) * 3,
@@ -94,6 +94,8 @@ def predict_volume_A(model, mri: torch.Tensor, avail: torch.Tensor, cfg: Config,
             acc[(slice(None),) + sl] += probs[j] * w[j]
             wsum[(slice(None),) + sl] += w[j]
 
+    if cfg.n_classes > 2:
+        return acc.argmax(dim=0).cpu().numpy().astype(np.uint8)
     prob_fg = (acc[1] / wsum[0].clamp_min(1e-6))
     return prob_fg.cpu().numpy()
 
@@ -106,20 +108,20 @@ def _velocity_field(model, y: torch.Tensor, t: float, cond_win: torch.Tensor,
     """一步：所有窗口读取同一份当前 y，融合出完整速度场。"""
     dev = y.device
     n = len(slices)
-    yw = torch.empty((n, 2, cfg.sw_window, cfg.sw_window, cfg.sw_window),
+    yw = torch.empty((n, cfg.n_classes, cfg.sw_window, cfg.sw_window, cfg.sw_window),
                      dtype=torch.float32, device=dev)
     for i, sl in enumerate(slices):
         yw[i] = y[(slice(None),) + sl]
 
     wsum = torch.zeros((1, *shape), dtype=torch.float32, device=dev)
-    out = torch.zeros((2, *shape), dtype=torch.float32, device=dev)
+    out = torch.zeros((cfg.n_classes, *shape), dtype=torch.float32, device=dev)
 
     for s in range(0, n, chunk):
         yb = yw[s:s + chunk]
         cb = cond_win[s:s + chunk]
         tc = torch.full((yb.shape[0], 1, cfg.sw_window, cfg.sw_window, cfg.sw_window),
                         float(t), dtype=torch.float32, device=dev)
-        x = torch.cat([cb, yb, tc], dim=1)                # [k, 11, w,w,w]
+        x = torch.cat([cb, yb, tc], dim=1)                # [batch, 9+类别数, w,w,w]
         with torch.autocast("cuda", dtype=torch.bfloat16, enabled=cfg.amp and dev.type == "cuda"):
             v = model(x)
         v = v.float()
@@ -140,6 +142,10 @@ def predict_volume_B(model, mri: torch.Tensor, avail: torch.Tensor, cfg: Config,
     dev = mri.device
     steps = steps or cfg.fm_steps
     shape = tuple(mri.shape[-3:])
+    if tuple(init_noise.shape) != (cfg.n_classes, *shape):
+        raise ValueError("初始噪声的通道数或体积尺寸与配置不符")
+    if collect_states and cfg.n_classes != 2:
+        raise ValueError("现有连续前景差值可视化仅用于二分类")
     slices, wgt = plan_windows(shape, cfg.sw_window, cfg.sw_overlap)
     wgt = wgt.to(dev)
 
@@ -149,7 +155,7 @@ def predict_volume_B(model, mri: torch.Tensor, avail: torch.Tensor, cfg: Config,
     for i, sl in enumerate(slices):
         cond_win[i] = cond[(slice(None),) + sl]
 
-    y = init_noise.to(dev).float().clone()                # [2,D,H,W]，三场景共用同一份
+    y = init_noise.to(dev).float().clone()                # [K,D,H,W]，各场景共用同一份
     dt = 1.0 / steps
     states = {}
     if collect_states:
@@ -173,7 +179,8 @@ def predict_volume_B(model, mri: torch.Tensor, avail: torch.Tensor, cfg: Config,
     return pred
 
 
-def init_noise_for_case(cid: str, shape: Sequence[int], eval_seed: int, device) -> torch.Tensor:
+def init_noise_for_case(cid: str, shape: Sequence[int], eval_seed: int, device,
+                        n_classes: int = 2) -> torch.Tensor:
     """按“病例 ID + 采样种子”固定初始噪声；同一病例三场景共用（方案 §5.2）。"""
     g = torch.Generator(device="cpu").manual_seed(case_noise_key(cid, eval_seed))
-    return torch.randn((2,) + tuple(shape), generator=g, dtype=torch.float32).to(device)
+    return torch.randn((n_classes,) + tuple(shape), generator=g, dtype=torch.float32).to(device)

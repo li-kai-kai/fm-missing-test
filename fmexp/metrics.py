@@ -16,6 +16,27 @@ from scipy import ndimage
 DEFAULT_SPACING = (1.0, 1.0, 1.0)
 
 
+def region_masks(seg: np.ndarray, n_classes: int = 4) -> dict:
+    """输入内部类别 0/1/2/3（3=ET）；WT/TC/ET 是嵌套区域。"""
+    if n_classes == 2:
+        return {"WT": seg > 0}
+    return {"WT": seg > 0, "TC": (seg == 1) | (seg == 3), "ET": seg == 3}
+
+
+def segmentation_metrics(pred, gt, n_classes=2, fast=False, gt_caches=None):
+    pm, gm = region_masks(pred, n_classes), region_masks(gt, n_classes)
+    rows = []
+    for region in gm:
+        m = case_metrics(pm[region], gm[region], fast=fast,
+                         gt_cache=None if gt_caches is None else gt_caches[region])
+        # 多类别任务允许 GT 子区域为空；任一侧独自为空都计入 HD95 失败。
+        m["hd95_failed"] = bool(m["pred_empty"] != m["gt_empty"])
+        if n_classes > 2:
+            m["region"] = region
+        rows.append(m)
+    return rows
+
+
 def dice_foreground(pred: np.ndarray, gt: np.ndarray) -> float:
     p, g = pred > 0, gt > 0
     sp, sg = int(p.sum()), int(g.sum())

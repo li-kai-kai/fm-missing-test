@@ -21,12 +21,19 @@ SCENARIOS = {
     "C1": {"avail": (1, 1, 0, 1), "name": "缺 T1ce"},
     "C2": {"avail": (0, 1, 0, 1), "name": "T2+FLAIR"},
 }
+MISSING_ONE_SCENARIOS = [f"missing_{m}" for m in MODALITIES]
+for i, m in enumerate(MODALITIES):
+    SCENARIOS[f"missing_{m}"] = {
+        "avail": tuple(int(j != i) for j in range(4)), "name": f"缺 {m}",
+    }
+TASKS = ("binary_wt", "multiclass_missing_one")
 SCENARIO_ORDER: List[str] = ["C0", "C1", "C2"]
 PRIMARY_SCENARIO = "C1"  # 预先指定的主要比较（方案 §1）
 
 
 @dataclass
 class Config:
+    task: str = "binary_wt"
     # ---- 路径 ----
     data_root: str = "/SimCLR/data/BraTS2020"
     out_root: str = "experiment"
@@ -77,6 +84,18 @@ class Config:
     # 因此推理保持 fp32，只做纯速度语义上的保真。
     amp: bool = False
     num_workers: int = 0         # 体积常驻内存，无需 worker
+
+    def __post_init__(self):
+        if self.task not in TASKS:
+            raise ValueError(f"未知 task: {self.task}")
+
+    @property
+    def n_classes(self):
+        return 4 if self.task == "multiclass_missing_one" else 2
+
+    @property
+    def scenarios(self):
+        return MISSING_ONE_SCENARIOS if self.n_classes == 4 else SCENARIO_ORDER
 
 
 def _tuplize(d: dict) -> dict:

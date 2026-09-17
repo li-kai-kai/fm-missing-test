@@ -82,8 +82,9 @@ def n_params(model: nn.Module) -> int:
 def build_model(method: str, cfg) -> nn.Module:
     """method: 'A' 直接分割；'B' flow matching。"""
     if method == "A":
-        return UNet3D(4 + 4, 2, cfg.base_channels, cfg.channel_mult, cfg.norm_groups)
+        return UNet3D(4 + 4, cfg.n_classes, cfg.base_channels, cfg.channel_mult, cfg.norm_groups)
     if method == "B":
-        # 4 MRI + 4 存在标记 + 2 noisy mask + 1 时间 t
-        return UNet3D(4 + 4 + 2 + 1, 2, cfg.base_channels, cfg.channel_mult, cfg.norm_groups)
+        # 4 MRI + 4 存在标记 + K noisy mask + 1 时间 t
+        return UNet3D(4 + 4 + cfg.n_classes + 1, cfg.n_classes,
+                      cfg.base_channels, cfg.channel_mult, cfg.norm_groups)
     raise ValueError(method)

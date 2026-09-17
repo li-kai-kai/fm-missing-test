@@ -51,9 +51,16 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", default="experiment")
     ap.add_argument("--split", default="test")
+    ap.add_argument("--run-tag", default="", help="四分类实验的运行目录后缀")
     args = ap.parse_args()
     root = os.path.dirname(os.path.abspath(__file__))
     out = os.path.join(root, args.out)
+    from fmexp.config import load_config
+    config_path = os.path.join(out, "config_preprocess.yaml")
+    if os.path.exists(config_path) and load_config(config_path).n_classes == 4:
+        from fmexp.multiclass_report import write_report
+        print(write_report(out, args.split, args.run_tag))
+        return
 
     audit = load_json(os.path.join(out, "data_audit.json"), {})
     lm = load_json(os.path.join(out, "label_mapping.json"), {})

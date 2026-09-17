@@ -33,6 +33,29 @@ LABEL_MAPPING = {
     "note": "第一轮不做子区域；子区域评价属于后续扩展阶段。",
 }
 
+MULTICLASS_LABEL_MAPPING = {
+    "dataset": "BraTS2020", "raw_values_present": [0, 1, 2, 4],
+    "raw_to_class": {"0": 0, "1": 1, "2": 2, "4": 3},
+    "class_to_raw": [0, 1, 2, 4],
+    "classes": ["background", "NCR/NET", "ED", "ET"],
+    "regions_internal": {"WT": [1, 2, 3], "TC": [1, 3], "ET": [3]},
+}
+
+
+def encode_segmentation(seg_raw, task="binary_wt"):
+    if not np.isin(seg_raw, [0, 1, 2, 4]).all():
+        raise ValueError("原始标签必须来自 {0,1,2,4}")
+    if task == "binary_wt":
+        return (seg_raw > 0).astype(np.uint8)
+    if task != "multiclass_missing_one":
+        raise ValueError(task)
+    return np.where(seg_raw == 4, 3, seg_raw).astype(np.uint8)
+
+
+def decode_segmentation(seg, n_classes):
+    """保存 NIfTI 时恢复 BraTS 原始标签值；二分类保持 0/1。"""
+    return np.asarray([0, 1, 2, 4], dtype=np.uint8)[seg] if n_classes == 4 else seg
+
 
 # ---------------------------------------------------------------- 病例发现
 
@@ -88,12 +111,13 @@ def _zscore_brain(vol: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
 
 
 def preprocess_case(data_root: str, cid: str, cache_dir: str,
-                    reorient_to: str = "RAS", overwrite: bool = False) -> dict:
+                    reorient_to: str = "RAS", overwrite: bool = False,
+                    task: str = "binary_wt") -> dict:
     """读一个病例 -> 缓存 npz。返回元信息。
 
     产物:
       img      [4,D,H,W] float16  四模态 z-score 后；未置零（置零在采样时按场景做）
-      seg      [D,H,W]   uint8    0/1 肿瘤整体
+      seg      [D,H,W]   uint8    binary_wt 为 0/1；四分类为 0/1/2/3（3=ET）
       support  [D,H,W]   bool     四模态非零并集 —— 仅用于训练期 patch 位置采样，绝不作为模型输入
     """
     os.makedirs(cache_dir, exist_ok=True)
@@ -101,7 +125,10 @@ def preprocess_case(data_root: str, cid: str, cache_dir: str,
     meta_path = os.path.join(cache_dir, f"{cid}.json")
     if os.path.exists(out_path) and os.path.exists(meta_path) and not overwrite:
         with open(meta_path) as f:
-            return json.load(f)
+            meta = json.load(f)
+        if meta.get("task", "binary_wt") != task:
+            raise ValueError(f"{cid}: 缓存任务不匹配，请使用独立实验目录")
+        return meta
 
     src = os.path.join(data_root, cid)
     vols, affines = [], []
@@ -131,7 +158,7 @@ def preprocess_case(data_root: str, cid: str, cache_dir: str,
     if unexpected:
         raise RuntimeError(f"{cid}: seg 含未预期标签值 {unexpected}")
 
-    seg = np.isin(seg_raw, LABEL_MAPPING["foreground"]).astype(np.uint8)
+    seg = encode_segmentation(seg_raw, task)
 
     proc, masks = [], []
     for v in vols:
@@ -144,11 +171,12 @@ def preprocess_case(data_root: str, cid: str, cache_dir: str,
     np.savez_compressed(out_path, img=img, seg=seg, support=support)
     meta = {
         "case_id": cid,
+        "task": task,
         "shape": list(img.shape[1:]),
         "spacing": [1.0, 1.0, 1.0],
         "orientation": reorient_to or "original",
         "seg_raw_values": uniq,
-        "tumor_voxels": int(seg.sum()),
+        "tumor_voxels": int((seg > 0).sum()),
         "support_voxels": int(support.sum()),
         "path": out_path,
     }
@@ -194,7 +222,11 @@ def patch_slices(center: np.ndarray, size: int, shape: Sequence[int]) -> Tuple[s
 class CaseData:
     """一个病例的全部内存数据。坐标数组在加载时算一次，避免每个样本重算 argwhere。"""
 
-    def __init__(self, cache_dir: str, cid: str):
+    def __init__(self, cache_dir: str, cid: str, task: str = "binary_wt"):
+        with open(os.path.join(cache_dir, f"{cid}.json")) as f:
+            meta = json.load(f)
+        if meta.get("task", "binary_wt") != task:
+            raise ValueError(f"{cid}: 缓存任务与模型不匹配")
         d = load_case(cache_dir, cid)
         self.cid = cid
         self.img = d["img"]              # [4,D,H,W] float32
@@ -211,9 +243,9 @@ class CaseData:
 class VolumeStore:
     """把所有需要的病例常驻内存。"""
 
-    def __init__(self, cache_dir: str, cases: Sequence[str]):
+    def __init__(self, cache_dir: str, cases: Sequence[str], task: str = "binary_wt"):
         self.cases = list(cases)
-        self._d: Dict[str, CaseData] = {cid: CaseData(cache_dir, cid) for cid in self.cases}
+        self._d: Dict[str, CaseData] = {cid: CaseData(cache_dir, cid, task) for cid in self.cases}
 
     def __getitem__(self, cid: str) -> CaseData:
         return self._d[cid]
@@ -266,22 +298,24 @@ def step_rngs(seed: int, step: int):
 
 
 def make_batch(store, cases: Sequence[str], seed: int, step: int,
-               patch: int, prob_tumor: float, batch_size: int, augment: bool = True):
+               patch: int, prob_tumor: float, batch_size: int, augment: bool = True,
+               n_classes: int = 2, scenario_order=None):
     """构造一个确定性 batch。返回 numpy 数组，A/B 共用同一份。
 
     cases 是候选病例池，batch_size 是实际样本数（方案 §4.3：有效 batch size = 4）。
     """
     rng, _ = step_rngs(seed, step)
+    scenario_order = SCENARIO_ORDER if scenario_order is None else scenario_order
     b = batch_size
     out_img = np.zeros((b, 4, patch, patch, patch), dtype=np.float32)
-    out_seg = np.zeros((b, 2, patch, patch, patch), dtype=np.float32)
+    out_seg = np.zeros((b, n_classes, patch, patch, patch), dtype=np.float32)
     out_avail = np.zeros((b, 4), dtype=np.float32)
     scenarios: List[str] = []
 
     for i in range(b):
         cid = cases[rng.integers(len(cases))]
         case = store[cid]
-        scen = SCENARIO_ORDER[rng.integers(len(SCENARIO_ORDER))]
+        scen = scenario_order[rng.integers(len(scenario_order))]
         scenarios.append(scen)
 
         seg = case.seg
@@ -303,8 +337,10 @@ def make_batch(store, cases: Sequence[str], seed: int, step: int,
             pi = pi * av.reshape(-1, 1, 1, 1)
 
         out_img[i] = pi
-        out_seg[i, 0] = (ps == 0).astype(np.float32)   # y1 背景通道 = [1,0]
-        out_seg[i, 1] = (ps > 0).astype(np.float32)    # y1 肿瘤通道 = [0,1]
+        if ps.max() >= n_classes:
+            raise ValueError("标签超出模型类别范围")
+        for label in range(n_classes):
+            out_seg[i, label] = (ps == label).astype(np.float32)
         out_avail[i] = av
 
     return {"mri": out_img, "y1": out_seg, "avail": out_avail, "scenarios": scenarios}

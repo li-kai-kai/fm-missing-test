@@ -19,7 +19,7 @@ from .config import Config, SCENARIO_ORDER
 from .data import VolumeStore, avail_vector, fm_noise, make_batch
 from .infer import init_noise_for_case, predict_volume_A, predict_volume_B
 from .losses import loss_A, loss_B
-from .metrics import case_metrics
+from .metrics import segmentation_metrics
 from .unet import build_model, n_params
 
 __all__ = ["VolumeStore", "validate", "train_one", "load_checkpoint"]
@@ -45,7 +45,8 @@ def forward_loss_A(model, mri, avail, y1, cfg):
 
 
 def forward_loss_B(model, mri, avail, y1, seed, step, cfg, device):
-    y0, t = fm_noise(seed, step, mri.shape[0], mri.shape[2:], device, torch.float32)
+    y0, t = fm_noise(seed, step, mri.shape[0], mri.shape[2:], device, torch.float32,
+                     n_ch=cfg.n_classes)
     yt = (1 - t) * y0 + t * y1
     target_v = y1 - y0
     tc = t.expand(t.shape[0], 1, *mri.shape[2:])
@@ -54,14 +55,15 @@ def forward_loss_B(model, mri, avail, y1, seed, step, cfg, device):
     return loss_B(pred_v, target_v)
 
 
-def validation_assignments(val_cases: Sequence[str], split_seed: int) -> Dict[str, str]:
+def validation_assignments(val_cases: Sequence[str], split_seed: int,
+                           scenarios=SCENARIO_ORDER) -> Dict[str, str]:
     """固定、均衡的病例—场景安排；不依赖病例传入顺序或训练随机数。"""
     cases = sorted(val_cases)
-    if len(set(cases)) != len(cases) or len(cases) < len(SCENARIO_ORDER):
+    if len(set(cases)) != len(cases) or len(cases) < len(scenarios):
         raise ValueError("验证集必须无重复，且病例数不少于场景数")
     rng = np.random.default_rng(split_seed)
     order = rng.permutation(len(cases))
-    return {cases[int(i)]: SCENARIO_ORDER[k % len(SCENARIO_ORDER)]
+    return {cases[int(i)]: scenarios[k % len(scenarios)]
             for k, i in enumerate(order)}
 
 
@@ -79,8 +81,8 @@ def validate(model, method: str, cfg: Config, store: VolumeStore,
         gt = case.seg
         noise = None
         if method == "B":
-            noise = init_noise_for_case(cid, gt.shape, cfg.eval_seed, device)
-        for scen in ([assignments[cid]] if assignments is not None else SCENARIO_ORDER):
+            noise = init_noise_for_case(cid, gt.shape, cfg.eval_seed, device, cfg.n_classes)
+        for scen in ([assignments[cid]] if assignments is not None else cfg.scenarios):
             # 训练期选择 checkpoint 只按方案 §4.3 规定的平均病例 Dice，
             # 因此跳过 HD95（那一步的全脑距离变换是评价里最贵的一环）。
             av = torch.from_numpy(avail_vector(scen)).to(device)
@@ -88,13 +90,13 @@ def validate(model, method: str, cfg: Config, store: VolumeStore,
             t0 = time.time()
             if method == "A":
                 prob = predict_volume_A(model, mri, av, cfg)
-                pred = (prob > 0.5).astype(np.uint8)
+                pred = (prob > 0.5).astype(np.uint8) if cfg.n_classes == 2 else prob
             else:
                 pred = predict_volume_B(model, mri, av, cfg, noise)
             dt = time.time() - t0
-            m = case_metrics(pred, gt, fast=True)
-            m.update({"case_id": cid, "scenario": scen, "seconds": dt})
-            rows.append(m)
+            for m in segmentation_metrics(pred, gt, cfg.n_classes, fast=True):
+                m.update({"case_id": cid, "scenario": scen, "seconds": dt})
+                rows.append(m)
     model.train(was_training)
     return rows
 
@@ -102,8 +104,12 @@ def validate(model, method: str, cfg: Config, store: VolumeStore,
 def _score(rows: Sequence[dict]) -> float:
     per = {}
     for r in rows:
-        per.setdefault(r["scenario"], []).append(r["dice"])
-    return float(np.mean([np.mean(per[s]) for s in SCENARIO_ORDER]))
+        per.setdefault((r["scenario"], r.get("region", "WT")), []).append(r["dice"])
+    return float(np.mean([np.mean(v) for v in per.values()]))
+
+
+def _n_predictions(rows):
+    return len({(r["case_id"], r["scenario"]) for r in rows})
 
 
 def train_one(method: str, cfg: Config, seed: int, splits: dict,
@@ -112,14 +118,14 @@ def train_one(method: str, cfg: Config, seed: int, splits: dict,
         raise ValueError("val_every 和 max_steps 必须为正数")
     if cfg.val_mode not in ("balanced", "full"):
         raise ValueError(f"未知 val_mode: {cfg.val_mode}")
-    fixed_assignments = validation_assignments(splits["val"], cfg.split_seed)
+    fixed_assignments = validation_assignments(splits["val"], cfg.split_seed, cfg.scenarios)
     assignments = fixed_assignments if cfg.val_mode == "balanced" else None
     os.makedirs(run_dir, exist_ok=True)
     torch.manual_seed(seed)
     np.random.seed(seed)
     torch.backends.cudnn.benchmark = True
 
-    store = VolumeStore(cache_dir, splits["train"] + splits["val"])
+    store = VolumeStore(cache_dir, splits["train"] + splits["val"], cfg.task)
     model = build_model(method, cfg).to(device)
     n_par = n_params(model)
     log(f"[{method} seed={seed}] 参数量 = {n_par:,}")
@@ -130,6 +136,7 @@ def train_one(method: str, cfg: Config, seed: int, splits: dict,
     fh = open(log_path, "w")
     meta = {
         "method": method, "seed": seed, "params": n_par,
+        "task": cfg.task, "n_classes": cfg.n_classes, "scenarios": cfg.scenarios,
         "gpu": torch.cuda.get_device_name(0) if device.type == "cuda" else "cpu",
         "lr": cfg.lr, "weight_decay": cfg.weight_decay, "batch_size": cfg.batch_size,
         "patch": cfg.patch, "max_steps": cfg.max_steps, "val_every": cfg.val_every,
@@ -138,7 +145,7 @@ def train_one(method: str, cfg: Config, seed: int, splits: dict,
         "train_cases": splits["train"], "val_cases": splits["val"],
         "val_mode": cfg.val_mode,
         "val_assignments": assignments,
-        "checkpoint_selection": "mean_of_scenario_mean_dice",
+        "checkpoint_selection": "mean_of_scenario_region_mean_dice",
     }
     with open(os.path.join(run_dir, "meta.json"), "w") as f:
         json.dump(meta, f, indent=2)
@@ -150,15 +157,15 @@ def train_one(method: str, cfg: Config, seed: int, splits: dict,
 
     # 每个场景一例，仅检查完整推理链路；不参与 best checkpoint 选择。
     smoke_cases = [next(c for c, s in fixed_assignments.items() if s == scen)
-                   for scen in SCENARIO_ORDER]
+                   for scen in cfg.scenarios]
     t_val = time.time()
     smoke_rows = validate(model, method, cfg, store, smoke_cases, device, fixed_assignments)
     validation_seconds += time.time() - t_val
     fh.write(json.dumps({"step": 0, "type": "smoke", "score": _score(smoke_rows),
-                         "n_predictions": len(smoke_rows), "rows": smoke_rows,
+                         "n_predictions": _n_predictions(smoke_rows), "rows": smoke_rows,
                          "elapsed_min": (time.time() - t_start) / 60}) + "\n")
     fh.flush()
-    log(f"[{method} s{seed}] step 0 smoke: {len(smoke_rows)} 个病例—场景，不参与 checkpoint 选择")
+    log(f"[{method} s{seed}] step 0 smoke: {_n_predictions(smoke_rows)} 个病例—场景，不参与 checkpoint 选择")
 
     for step in range(cfg.max_steps + 1):
         if step > 0 and (step % cfg.val_every == 0 or step == cfg.max_steps):
@@ -167,9 +174,9 @@ def train_one(method: str, cfg: Config, seed: int, splits: dict,
             rows = validate(model, method, cfg, store, splits["val"], device, assignments)
             validation_seconds += time.time() - t_val
             sc = _score(rows)
-            per = {s: float(np.mean([r["dice"] for r in rows if r["scenario"] == s])) for s in SCENARIO_ORDER}
+            per = {s: float(np.mean([r["dice"] for r in rows if r["scenario"] == s])) for s in cfg.scenarios}
             rec = {"step": step, "type": "val", "score": sc, **{f"dice_{k}": v for k, v in per.items()},
-                   "val_mode": cfg.val_mode, "n_predictions": len(rows),
+                   "val_mode": cfg.val_mode, "n_predictions": _n_predictions(rows),
                    "elapsed_min": (time.time() - t_start) / 60}
             fh.write(json.dumps(rec) + "\n"); fh.flush()
             log(f"[{method} s{seed}] step {step:>6d} val score={sc:.4f} "
@@ -186,7 +193,8 @@ def train_one(method: str, cfg: Config, seed: int, splits: dict,
 
         # ---- 一个优化器更新 ----
         batch = make_batch(store, splits["train"], seed, step, cfg.patch,
-                           cfg.tumor_center_prob, cfg.batch_size)
+                           cfg.tumor_center_prob, cfg.batch_size,
+                           n_classes=cfg.n_classes, scenario_order=cfg.scenarios)
         b = _to_device(batch, device)
         if method == "A":
             loss, parts = forward_loss_A(model, b["mri"], b["avail"], b["y1"], cfg)
@@ -217,7 +225,7 @@ def train_one(method: str, cfg: Config, seed: int, splits: dict,
         json.dump({"split": "val", "step": best_step, "selection_score": best_score,
                    "score": full_score, "rows": full_rows}, f, indent=2)
     fh.write(json.dumps({"step": best_step, "type": "val_full", "score": full_score,
-                         "n_predictions": len(full_rows),
+                         "n_predictions": _n_predictions(full_rows),
                          "elapsed_min": (time.time() - t_start) / 60}) + "\n")
     fh.close()
     peak = torch.cuda.max_memory_allocated() / 1e9 if device.type == "cuda" else 0.0

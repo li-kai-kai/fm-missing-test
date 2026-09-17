@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""阶段二：60 病例训练 A / B，覆盖三种输入场景（方案 §6）。
+"""阶段二：从实验目录读取任务配置，训练 A / B。
 
 用法:
     python3 run_train.py --method A --seed 0
@@ -18,7 +18,7 @@ os.environ.setdefault("PYTORCH_ALLOC_CONF", "expandable_segments:True")
 import torch
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from fmexp.config import Config, save_config
+from fmexp.config import Config, save_config, load_config
 from fmexp.train import train_one
 
 
@@ -37,7 +37,9 @@ def main():
 
     root = os.path.dirname(os.path.abspath(__file__))
     out = os.path.join(root, args.out)
-    cfg = Config()
+    cfg = load_config(os.path.join(out, "config_preprocess.yaml"))
+    # 旧预处理配置可能保存旧间隔；训练协议以当前默认值/显式 CLI 为准。
+    cfg.val_every = Config().val_every
     cfg.val_mode = args.val_mode
     if args.val_every is not None:
         cfg.val_every = args.val_every

@@ -1,6 +1,8 @@
 # ---- 派生数据（体积大，可由 run_preprocess.py --out experiment 重建）----
 experiment/cache/
 experiment/predictions/
+experiment_multiclass/cache/
+experiment_multiclass/predictions/
 
 # ---- 训练 checkpoint（每个 ~5MB，体积大且可重训）----
 *.pt

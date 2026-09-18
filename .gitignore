@@ -17,3 +17,4 @@ _dryrun/
 # ---- 杂项 ----
 .DS_Store
 *.swp
+.ipynb_checkpoints/

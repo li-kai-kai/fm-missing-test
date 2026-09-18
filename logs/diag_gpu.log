@@ -1,0 +1,37 @@
+== 诊断 fit 设备=cuda ==
+-- 检查 fit --
+[B seed=0] 载入 /SimCLR/code/fm_missing_mri_test/experiment_multiclass/runs/B_seed0/best.pt step=10000
+  train: WT Dice=0.5863 (掩蔽后 0.6401) 碎块中位=782
+  test: WT Dice=0.4551 (掩蔽后 0.5191) 碎块中位=1152
+  -> /SimCLR/code/fm_missing_mri_test/experiment_multiclass/diagnostics/fit_B_seed0.json
+-- 检查 fit 用时 7.8 min --
+== 诊断 time 设备=cuda ==
+-- 检查 time --
+[B seed=0] 载入 /SimCLR/code/fm_missing_mri_test/experiment_multiclass/runs/B_seed0/best.pt step=10000
+  2a 分时间速度 MSE 完成 (8s)
+  2b BraTS20_Training_027 missing_t1: 末步 Dice=0.5800 (15s)
+  2b BraTS20_Training_027 missing_t2: 末步 Dice=0.5555 (15s)
+  2b BraTS20_Training_027 missing_t1ce: 末步 Dice=0.6032 (15s)
+  2b BraTS20_Training_027 missing_flair: 末步 Dice=0.4541 (15s)
+  2b BraTS20_Training_035 missing_t1: 末步 Dice=0.3481 (15s)
+  2b BraTS20_Training_035 missing_t2: 末步 Dice=0.3976 (15s)
+  2b BraTS20_Training_035 missing_t1ce: 末步 Dice=0.3211 (15s)
+  2b BraTS20_Training_035 missing_flair: 末步 Dice=0.0499 (15s)
+  2b BraTS20_Training_051 missing_t1: 末步 Dice=0.6602 (15s)
+  2b BraTS20_Training_051 missing_t2: 末步 Dice=0.7297 (15s)
+  2b BraTS20_Training_051 missing_t1ce: 末步 Dice=0.6304 (15s)
+  2b BraTS20_Training_051 missing_flair: 末步 Dice=0.3263 (15s)
+  -> /SimCLR/code/fm_missing_mri_test/experiment_multiclass/diagnostics/time_B_seed0.json
+-- 检查 time 用时 3.7 min --
+== 诊断 condition 设备=cuda ==
+-- 检查 condition --
+[B seed=0] 载入 /SimCLR/code/fm_missing_mri_test/experiment_multiclass/runs/B_seed0/best.pt step=10000
+  条件消融 missing_t1ce: real=0.5525 zero=0.0000 swap_case=0.0487 shuffle_vox=0.0000
+  -> /SimCLR/code/fm_missing_mri_test/experiment_multiclass/diagnostics/condition_B_seed0.json
+-- 检查 condition 用时 5.3 min --
+== 诊断 steps 设备=cuda ==
+-- 检查 steps --
+[B seed=0] 载入 /SimCLR/code/fm_missing_mri_test/experiment_multiclass/runs/B_seed0/best.pt step=10000
+  步数扫描 missing_t1ce: 8步=0.5596/880块 16步=0.5235/827块 32步=0.5017/742块 64步=0.4896/770块 128步=0.4833/770块
+  -> /SimCLR/code/fm_missing_mri_test/experiment_multiclass/diagnostics/steps_B_seed0.json
+-- 检查 steps 用时 8.0 min --

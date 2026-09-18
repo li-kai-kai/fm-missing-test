@@ -1,0 +1,13 @@
+{
+  "method": "B",
+  "seed": 0,
+  "params": 1406500,
+  "best_score": 0.016170502583755825,
+  "best_step": 3000,
+  "train_minutes": 4.2189600467681885,
+  "validation_minutes": 2.5830486257870993,
+  "best_full_val_score": 0.017458007759580774,
+  "val_mode": "balanced",
+  "peak_gpu_gb": 8.79383808,
+  "run_dir": "/SimCLR/code/fm_missing_mri_test/experiment_multiclass/diagnostics/runs/tiny-fit_B_seed0"
+}

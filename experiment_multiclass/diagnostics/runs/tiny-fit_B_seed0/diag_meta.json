@@ -1,0 +1,22 @@
+{
+  "experiment": "tiny-fit",
+  "method": "B",
+  "seed": 0,
+  "desc": "2 个训练病例、关闭增强、patch 全部围绕肿瘤；检验能否拟合（不参与性能比较）",
+  "overrides": {
+    "max_steps": 3000,
+    "augment": false,
+    "tumor_center_prob": 1.0,
+    "val_every": 1000000000
+  },
+  "train_cases": [
+    "BraTS20_Training_015",
+    "BraTS20_Training_020"
+  ],
+  "val_cases": [
+    "BraTS20_Training_037",
+    "BraTS20_Training_063",
+    "BraTS20_Training_065",
+    "BraTS20_Training_122"
+  ]
+}

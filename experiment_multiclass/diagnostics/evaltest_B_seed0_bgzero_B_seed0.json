@@ -1,0 +1,782 @@
+{
+  "method": "B",
+  "seed": 0,
+  "run_dir": "experiment_multiclass/diagnostics/runs/bgzero_B_seed0",
+  "cases": [
+    "BraTS20_Training_027",
+    "BraTS20_Training_035",
+    "BraTS20_Training_051",
+    "BraTS20_Training_052",
+    "BraTS20_Training_054",
+    "BraTS20_Training_057",
+    "BraTS20_Training_086",
+    "BraTS20_Training_108",
+    "BraTS20_Training_138",
+    "BraTS20_Training_141",
+    "BraTS20_Training_154",
+    "BraTS20_Training_165",
+    "BraTS20_Training_179",
+    "BraTS20_Training_197",
+    "BraTS20_Training_236",
+    "BraTS20_Training_237",
+    "BraTS20_Training_242",
+    "BraTS20_Training_275",
+    "BraTS20_Training_318",
+    "BraTS20_Training_329"
+  ],
+  "overall": {
+    "WT": 0.5359362208961604,
+    "TC": 0.3247429378704771,
+    "ET": 0.2089137290226935
+  },
+  "per_scenario": {
+    "missing_t1": {
+      "WT": 0.6139616505104358,
+      "TC": 0.37736762545905955,
+      "ET": 0.27968435684951776,
+      "components_median": 379.5
+    },
+    "missing_t2": {
+      "WT": 0.627601032432456,
+      "TC": 0.3836157348360579,
+      "ET": 0.29267058555258263,
+      "components_median": 489.0
+    },
+    "missing_t1ce": {
+      "WT": 0.603984065013039,
+      "TC": 0.33315797953552106,
+      "ET": 0.10187797769980231,
+      "components_median": 403.5
+    },
+    "missing_flair": {
+      "WT": 0.2981981356287109,
+      "TC": 0.2048304116512699,
+      "ET": 0.1614219959888711,
+      "components_median": 593.0
+    }
+  },
+  "per_case": [
+    {
+      "case_id": "BraTS20_Training_027",
+      "scenario": "missing_t1",
+      "dice": {
+        "WT": 0.5529898076691704,
+        "TC": 0.303920812840161,
+        "ET": 0.1161846565939815
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_027",
+      "scenario": "missing_t2",
+      "dice": {
+        "WT": 0.5491024196760915,
+        "TC": 0.3224937955929909,
+        "ET": 0.19639908485029345
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_027",
+      "scenario": "missing_t1ce",
+      "dice": {
+        "WT": 0.5378471668164373,
+        "TC": 0.31017284059440126,
+        "ET": 0.04896945198846291
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_027",
+      "scenario": "missing_flair",
+      "dice": {
+        "WT": 0.43276941521246837,
+        "TC": 0.21479039095619407,
+        "ET": 0.0956738962949128
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_035",
+      "scenario": "missing_t1",
+      "dice": {
+        "WT": 0.4003613517841744,
+        "TC": 0.3285502386173094,
+        "ET": 0.25515668385561285
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_035",
+      "scenario": "missing_t2",
+      "dice": {
+        "WT": 0.41026462568575783,
+        "TC": 0.3230754175701358,
+        "ET": 0.25211132017678206
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_035",
+      "scenario": "missing_t1ce",
+      "dice": {
+        "WT": 0.3173532633141132,
+        "TC": 0.2487503772641014,
+        "ET": 0.13227059831668408
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_035",
+      "scenario": "missing_flair",
+      "dice": {
+        "WT": 0.052949042707487445,
+        "TC": 0.057511049576654774,
+        "ET": 0.03497423138439666
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_051",
+      "scenario": "missing_t1",
+      "dice": {
+        "WT": 0.7321359506571582,
+        "TC": 0.21506930988224773,
+        "ET": 0.2858128354927027
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_051",
+      "scenario": "missing_t2",
+      "dice": {
+        "WT": 0.7834807223892387,
+        "TC": 0.2509557372888987,
+        "ET": 0.3296043890103296
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_051",
+      "scenario": "missing_t1ce",
+      "dice": {
+        "WT": 0.6776562846878058,
+        "TC": 0.1624236445725993,
+        "ET": 0.029316025961058412
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_051",
+      "scenario": "missing_flair",
+      "dice": {
+        "WT": 0.3478012767930383,
+        "TC": 0.10093818984547462,
+        "ET": 0.16387346810516393
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_052",
+      "scenario": "missing_t1",
+      "dice": {
+        "WT": 0.7134614739525679,
+        "TC": 0.46790819522751864,
+        "ET": 0.3722938144329897
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_052",
+      "scenario": "missing_t2",
+      "dice": {
+        "WT": 0.6979371596966555,
+        "TC": 0.4601700504447336,
+        "ET": 0.3856464506822143
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_052",
+      "scenario": "missing_t1ce",
+      "dice": {
+        "WT": 0.6263878896660164,
+        "TC": 0.36703046098713143,
+        "ET": 0.18503785448479404
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_052",
+      "scenario": "missing_flair",
+      "dice": {
+        "WT": 0.05348325592764605,
+        "TC": 0.00039257252777450633,
+        "ET": 0.0006040731791508457
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_054",
+      "scenario": "missing_t1",
+      "dice": {
+        "WT": 0.45904939958294383,
+        "TC": 0.4243392475888979,
+        "ET": 0.42790611275491924
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_054",
+      "scenario": "missing_t2",
+      "dice": {
+        "WT": 0.5179004697136019,
+        "TC": 0.47171773617708235,
+        "ET": 0.4974310944607974
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_054",
+      "scenario": "missing_t1ce",
+      "dice": {
+        "WT": 0.3989858434451582,
+        "TC": 0.30882116187197367,
+        "ET": 0.12989954830445627
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_054",
+      "scenario": "missing_flair",
+      "dice": {
+        "WT": 0.14261791667237028,
+        "TC": 0.18266018715848,
+        "ET": 0.2150628293473855
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_057",
+      "scenario": "missing_t1",
+      "dice": {
+        "WT": 0.7461166126382166,
+        "TC": 0.24268098540244462,
+        "ET": 0.19824884494846692
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_057",
+      "scenario": "missing_t2",
+      "dice": {
+        "WT": 0.7163311872464421,
+        "TC": 0.1933072434560495,
+        "ET": 0.20535570253266655
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_057",
+      "scenario": "missing_t1ce",
+      "dice": {
+        "WT": 0.5727586230537711,
+        "TC": 0.13430120692670983,
+        "ET": 0.027929490886504316
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_057",
+      "scenario": "missing_flair",
+      "dice": {
+        "WT": 0.42097082012798037,
+        "TC": 0.09878588311347246,
+        "ET": 0.10779456951150687
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_086",
+      "scenario": "missing_t1",
+      "dice": {
+        "WT": 0.3371587118226867,
+        "TC": 0.001065776974583536,
+        "ET": 0.0
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_086",
+      "scenario": "missing_t2",
+      "dice": {
+        "WT": 0.2732189267696071,
+        "TC": 0.0003269339048622337,
+        "ET": 0.0
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_086",
+      "scenario": "missing_t1ce",
+      "dice": {
+        "WT": 0.2075497104896988,
+        "TC": 5.256863492397261e-05,
+        "ET": 0.0
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_086",
+      "scenario": "missing_flair",
+      "dice": {
+        "WT": 0.009656213631931558,
+        "TC": 0.0,
+        "ET": 0.0
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_108",
+      "scenario": "missing_t1",
+      "dice": {
+        "WT": 0.6247529943138282,
+        "TC": 0.6193738973454233,
+        "ET": 0.63006122852064
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_108",
+      "scenario": "missing_t2",
+      "dice": {
+        "WT": 0.5467186053417646,
+        "TC": 0.5255882947879442,
+        "ET": 0.58220223956566
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_108",
+      "scenario": "missing_t1ce",
+      "dice": {
+        "WT": 0.3230375927245296,
+        "TC": 0.26209428270272234,
+        "ET": 0.21306724384606918
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_108",
+      "scenario": "missing_flair",
+      "dice": {
+        "WT": 0.19998678584575308,
+        "TC": 0.21828352345935073,
+        "ET": 0.4252419142286984
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_138",
+      "scenario": "missing_t1",
+      "dice": {
+        "WT": 0.7206958228402841,
+        "TC": 0.34844903628256046,
+        "ET": 0.3343428742055198
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_138",
+      "scenario": "missing_t2",
+      "dice": {
+        "WT": 0.7460637027574908,
+        "TC": 0.37992020710185187,
+        "ET": 0.38737651423718206
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_138",
+      "scenario": "missing_t1ce",
+      "dice": {
+        "WT": 0.7728180790960452,
+        "TC": 0.3767007145126147,
+        "ET": 0.14328288888028795
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_138",
+      "scenario": "missing_flair",
+      "dice": {
+        "WT": 0.5374386628139922,
+        "TC": 0.3156914124703431,
+        "ET": 0.37328935709363004
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_141",
+      "scenario": "missing_t1",
+      "dice": {
+        "WT": 0.2820344287949922,
+        "TC": 0.03335893411693993,
+        "ET": 0.0002639741305352075
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_141",
+      "scenario": "missing_t2",
+      "dice": {
+        "WT": 0.5198596776064015,
+        "TC": 0.09255169644649669,
+        "ET": 0.0005504334663547544
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_141",
+      "scenario": "missing_t1ce",
+      "dice": {
+        "WT": 0.5999888270237054,
+        "TC": 0.0941012324625998,
+        "ET": 0.0
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_141",
+      "scenario": "missing_flair",
+      "dice": {
+        "WT": 0.0,
+        "TC": 0.0,
+        "ET": 0.0
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_154",
+      "scenario": "missing_t1",
+      "dice": {
+        "WT": 0.7679061729694641,
+        "TC": 0.6501798203123963,
+        "ET": 0.29858344718487095
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_154",
+      "scenario": "missing_t2",
+      "dice": {
+        "WT": 0.6396588789197832,
+        "TC": 0.6181725251492693,
+        "ET": 0.2732030573440265
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_154",
+      "scenario": "missing_t1ce",
+      "dice": {
+        "WT": 0.797978719948772,
+        "TC": 0.7011056096325887,
+        "ET": 0.26388416830942835
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_154",
+      "scenario": "missing_flair",
+      "dice": {
+        "WT": 0.2982558722309466,
+        "TC": 0.30935207294592154,
+        "ET": 0.16298705565411656
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_165",
+      "scenario": "missing_t1",
+      "dice": {
+        "WT": 0.8212737524316105,
+        "TC": 0.4581435198729469,
+        "ET": 0.5082186394022807
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_165",
+      "scenario": "missing_t2",
+      "dice": {
+        "WT": 0.8044303965576775,
+        "TC": 0.45936320098210653,
+        "ET": 0.5463791652342963
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_165",
+      "scenario": "missing_t1ce",
+      "dice": {
+        "WT": 0.7602780657357155,
+        "TC": 0.3725973262633968,
+        "ET": 0.08919597989949749
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_165",
+      "scenario": "missing_flair",
+      "dice": {
+        "WT": 0.4455777410461561,
+        "TC": 0.2383384445110563,
+        "ET": 0.37897670928144517
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_179",
+      "scenario": "missing_t1",
+      "dice": {
+        "WT": 0.7427800373468396,
+        "TC": 0.4650785357774097,
+        "ET": 0.5534418624386518
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_179",
+      "scenario": "missing_t2",
+      "dice": {
+        "WT": 0.7508929442763735,
+        "TC": 0.4522570063467161,
+        "ET": 0.5127307093617968
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_179",
+      "scenario": "missing_t1ce",
+      "dice": {
+        "WT": 0.7684005375398406,
+        "TC": 0.17728186507503624,
+        "ET": 0.1447591889795148
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_179",
+      "scenario": "missing_flair",
+      "dice": {
+        "WT": 0.40818904210393364,
+        "TC": 0.13947137867082343,
+        "ET": 0.18744186046511627
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_197",
+      "scenario": "missing_t1",
+      "dice": {
+        "WT": 0.8241617948913509,
+        "TC": 0.6002026704816404,
+        "ET": 0.3520819397076402
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_197",
+      "scenario": "missing_t2",
+      "dice": {
+        "WT": 0.8480014130530779,
+        "TC": 0.6447365804180506,
+        "ET": 0.443175800199123
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_197",
+      "scenario": "missing_t1ce",
+      "dice": {
+        "WT": 0.8622101339496473,
+        "TC": 0.6433836904283226,
+        "ET": 0.12585985235059444
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_197",
+      "scenario": "missing_flair",
+      "dice": {
+        "WT": 0.7376362376362376,
+        "TC": 0.6213561139308367,
+        "ET": 0.33398637242942864
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_236",
+      "scenario": "missing_t1",
+      "dice": {
+        "WT": 0.7604380771236617,
+        "TC": 0.40036720009924326,
+        "ET": 0.46357615894039733
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_236",
+      "scenario": "missing_t2",
+      "dice": {
+        "WT": 0.7374357064357825,
+        "TC": 0.3690003659600822,
+        "ET": 0.36283130090446836
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_236",
+      "scenario": "missing_t1ce",
+      "dice": {
+        "WT": 0.7511100473064376,
+        "TC": 0.2897027297813152,
+        "ET": 0.20690938546752194
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_236",
+      "scenario": "missing_flair",
+      "dice": {
+        "WT": 0.01811837246332622,
+        "TC": 0.0,
+        "ET": 0.0
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_237",
+      "scenario": "missing_t1",
+      "dice": {
+        "WT": 0.745777306922529,
+        "TC": 0.2766004477569643,
+        "ET": 0.23699405918605296
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_237",
+      "scenario": "missing_t2",
+      "dice": {
+        "WT": 0.7767507845750398,
+        "TC": 0.3146263875930266,
+        "ET": 0.3087944809693682
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_237",
+      "scenario": "missing_t1ce",
+      "dice": {
+        "WT": 0.8150237590317866,
+        "TC": 0.29690065313555253,
+        "ET": 0.037234792770647375
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_237",
+      "scenario": "missing_flair",
+      "dice": {
+        "WT": 0.5199070278239546,
+        "TC": 0.2388216728037875,
+        "ET": 0.30532560243992357
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_242",
+      "scenario": "missing_t1",
+      "dice": {
+        "WT": 0.6796223590740181,
+        "TC": 0.7291632173250769,
+        "ET": 0.5541586225298614
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_242",
+      "scenario": "missing_t2",
+      "dice": {
+        "WT": 0.6532006330578822,
+        "TC": 0.690797346909799,
+        "ET": 0.5561142923582246
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_242",
+      "scenario": "missing_t1ce",
+      "dice": {
+        "WT": 0.6960821860743249,
+        "TC": 0.684640573512246,
+        "ET": 0.24187832835111753
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_242",
+      "scenario": "missing_flair",
+      "dice": {
+        "WT": 0.3964511853924312,
+        "TC": 0.46727827476701467,
+        "ET": 0.4359043164916047
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_275",
+      "scenario": "missing_t1",
+      "dice": {
+        "WT": 0.209913964961498,
+        "TC": 0.08312987154639348,
+        "ET": 0.0
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_275",
+      "scenario": "missing_t2",
+      "dice": {
+        "WT": 0.35842925310848484,
+        "TC": 0.18813812960542517,
+        "ET": 0.0
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_275",
+      "scenario": "missing_t1ce",
+      "dice": {
+        "WT": 0.24336545672296656,
+        "TC": 0.11434192766122944,
+        "ET": 0.0
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_275",
+      "scenario": "missing_flair",
+      "dice": {
+        "WT": 0.0,
+        "TC": 0.0,
+        "ET": 0.0
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_318",
+      "scenario": "missing_t1",
+      "dice": {
+        "WT": 0.7415037265892886,
+        "TC": 0.5753189664415139,
+        "ET": 0.006361382665232237
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_318",
+      "scenario": "missing_t2",
+      "dice": {
+        "WT": 0.6477070532134469,
+        "TC": 0.46444675988757456,
+        "ET": 0.013505675698069434
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_318",
+      "scenario": "missing_t1ce",
+      "dice": {
+        "WT": 0.8119863209781437,
+        "TC": 0.6766427312338321,
+        "ET": 0.018064755199407107
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_318",
+      "scenario": "missing_flair",
+      "dice": {
+        "WT": 0.5235284110673543,
+        "TC": 0.5187555688565735,
+        "ET": 0.007303663870941852
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_329",
+      "scenario": "missing_t1",
+      "dice": {
+        "WT": 0.41709926384243473,
+        "TC": 0.32445182528951855,
+        "ET": 0.0
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_329",
+      "scenario": "missing_t2",
+      "dice": {
+        "WT": 0.5746360885685237,
+        "TC": 0.4506692810980612,
+        "ET": 0.0
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_329",
+      "scenario": "missing_t1ce",
+      "dice": {
+        "WT": 0.5388627926558669,
+        "TC": 0.44211399345712576,
+        "ET": 0.0
+      }
+    },
+    {
+      "case_id": "BraTS20_Training_329",
+      "scenario": "missing_flair",
+      "dice": {
+        "WT": 0.41862543307721045,
+        "TC": 0.37418149743164014,
+        "ET": 0.0
+      }
+    }
+  ],
+  "_check": "evaltest",
+  "_seconds": 522.1223680973053
+}

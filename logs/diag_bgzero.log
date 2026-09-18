@@ -1,0 +1,13 @@
+== 诊断重训 bgzero seed=0 设备=cuda ==
+   说明：增强只在脑支撑内施加、背景严格为 0；对照原 B_seed0（val_every=2000）
+   病例：train=60 val=20 覆盖={'aug_keep_background_zero': True, 'val_every': 5000}
+[A seed=0] 参数量 = 1,404,340
+[A s0] step 0 smoke: 4 个病例—场景，不参与 checkpoint 选择
+[A s0] step   5000 val score=0.7690 missing_t1=0.8011 missing_t2=0.8268 missing_t1ce=0.6150 missing_flair=0.8331 (6.5 min)
+[A s0] step  10000 val score=0.7816 missing_t1=0.7930 missing_t2=0.8415 missing_t1ce=0.6559 missing_flair=0.8359 (12.7 min)
+[A s0] 完成 best=0.7816@10000 全场景验证=0.7939 总用时13.8min 其中验证1.8min 峰值显存7.19GB
+[B seed=0] 参数量 = 1,406,500
+[B s0] step 0 smoke: 4 个病例—场景，不参与 checkpoint 选择
+[B s0] step   5000 val score=0.2629 missing_t1=0.4035 missing_t2=0.0513 missing_t1ce=0.3789 missing_flair=0.2179 (8.5 min)
+[B s0] step  10000 val score=0.3657 missing_t1=0.4306 missing_t2=0.3718 missing_t1ce=0.4032 missing_flair=0.2573 (16.4 min)
+[B s0] 完成 best=0.3657@10000 全场景验证=0.3773 总用时25.0min 其中验证13.3min 峰值显存8.79GB

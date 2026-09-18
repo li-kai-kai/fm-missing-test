@@ -1,0 +1,11 @@
+== 诊断 location 设备=cuda ==
+-- 检查 location --
+  距离变换完成 (215s)
+  位置检查 A seed0 完成 (151s)
+  位置检查 A seed1 完成 (67s)
+  位置检查 A seed2 完成 (54s)
+  位置检查 B seed0 完成 (28s)
+  位置检查 B seed1 完成 (28s)
+  位置检查 B seed2 完成 (28s)
+  -> /SimCLR/code/fm_missing_mri_test/experiment_multiclass/diagnostics/location.json
+-- 检查 location 用时 10.0 min --

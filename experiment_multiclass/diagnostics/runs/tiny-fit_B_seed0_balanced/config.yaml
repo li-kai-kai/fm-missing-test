@@ -1,0 +1,45 @@
+task: multiclass_missing_one
+data_root: /SimCLR/data/BraTS2020
+out_root: experiment_multiclass
+n_cases: 100
+n_train: 60
+n_val: 20
+n_test: 20
+split_seed: 42
+resample: false
+target_spacing:
+- 1.0
+- 1.0
+- 1.0
+reorient_to: RAS
+patch: 64
+batch_size: 4
+grad_accum: 1
+tumor_center_prob: 0.5
+augment: false
+aug_keep_background_zero: false
+lr: 0.0001
+weight_decay: 1.0e-05
+max_steps: 3000
+val_every: 1000000000
+val_mode: balanced
+seeds:
+- 0
+- 1
+- 2
+main_seed: 0
+base_channels: 16
+channel_mult:
+- 1
+- 2
+- 4
+- 8
+num_levels: 4
+norm_groups: 8
+sw_window: 64
+sw_overlap: 0.5
+fm_steps: 16
+eval_seed: 1234
+device: cuda
+amp: false
+num_workers: 0

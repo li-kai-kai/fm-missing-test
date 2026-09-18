@@ -1,0 +1,6 @@
+== 诊断 evaltest 设备=cuda ==
+-- 检查 evaltest --
+[B seed=0] 载入 /SimCLR/code/fm_missing_mri_test/experiment_multiclass/runs/B_seed0/best.pt step=10000
+  测试集 20 例 × 4 场景: WT=0.5288 TC=0.3043 ET=0.1907
+  -> /SimCLR/code/fm_missing_mri_test/experiment_multiclass/diagnostics/evaltest_B_seed0.json
+-- 检查 evaltest 用时 8.7 min --

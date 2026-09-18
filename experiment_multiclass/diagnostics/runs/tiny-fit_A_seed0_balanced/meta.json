@@ -1,0 +1,46 @@
+{
+  "method": "A",
+  "seed": 0,
+  "params": 1404340,
+  "task": "multiclass_missing_one",
+  "n_classes": 4,
+  "scenarios": [
+    "missing_t1",
+    "missing_t2",
+    "missing_t1ce",
+    "missing_flair"
+  ],
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "lr": 0.0001,
+  "weight_decay": 1e-05,
+  "batch_size": 4,
+  "patch": 64,
+  "max_steps": 3000,
+  "val_every": 1000000000,
+  "fm_steps": 16,
+  "sw_window": 64,
+  "sw_overlap": 0.5,
+  "n_train": 2,
+  "n_val": 4,
+  "train_cases": [
+    "BraTS20_Training_015",
+    "BraTS20_Training_020"
+  ],
+  "val_cases": [
+    "BraTS20_Training_037",
+    "BraTS20_Training_063",
+    "BraTS20_Training_065",
+    "BraTS20_Training_122"
+  ],
+  "val_mode": "balanced",
+  "augment": false,
+  "aug_keep_background_zero": false,
+  "tumor_center_prob": 0.5,
+  "val_assignments": {
+    "BraTS20_Training_122": "missing_t1",
+    "BraTS20_Training_065": "missing_t2",
+    "BraTS20_Training_063": "missing_t1ce",
+    "BraTS20_Training_037": "missing_flair"
+  },
+  "checkpoint_selection": "mean_of_scenario_region_mean_dice"
+}

@@ -1,0 +1,14 @@
+== 诊断重训 long seed=0 设备=cuda ==
+   说明：延长训练到 40k 步。前 10k 步与 B_seed0 使用同一 RNG 流，应逐位复现
+   病例：train=60 val=20 覆盖={'max_steps': 40000, 'val_every': 5000}
+[B seed=0] 参数量 = 1,406,500
+[B s0] step 0 smoke: 4 个病例—场景，不参与 checkpoint 选择
+[B s0] step   5000 val score=0.2408 missing_t1=0.3826 missing_t2=0.1549 missing_t1ce=0.3285 missing_flair=0.0973 (7.4 min)
+[B s0] step  10000 val score=0.3279 missing_t1=0.4315 missing_t2=0.3614 missing_t1ce=0.3314 missing_flair=0.1874 (14.3 min)
+[B s0] step  15000 val score=0.3414 missing_t1=0.4529 missing_t2=0.3787 missing_t1ce=0.4072 missing_flair=0.1268 (21.2 min)
+[B s0] step  20000 val score=0.3826 missing_t1=0.4716 missing_t2=0.3281 missing_t1ce=0.4144 missing_flair=0.3163 (28.0 min)
+[B s0] step  25000 val score=0.4296 missing_t1=0.5161 missing_t2=0.3930 missing_t1ce=0.4695 missing_flair=0.3397 (34.8 min)
+[B s0] step  30000 val score=0.2543 missing_t1=0.3073 missing_t2=0.1949 missing_t1ce=0.4734 missing_flair=0.0415 (41.6 min)
+[B s0] step  35000 val score=0.3904 missing_t1=0.4845 missing_t2=0.3724 missing_t1ce=0.3846 missing_flair=0.3202 (48.4 min)
+[B s0] step  40000 val score=0.4092 missing_t1=0.5060 missing_t2=0.3502 missing_t1ce=0.4218 missing_flair=0.3587 (55.4 min)
+[B s0] 完成 best=0.4296@25000 全场景验证=0.4295 总用时63.9min 其中验证26.5min 峰值显存8.79GB

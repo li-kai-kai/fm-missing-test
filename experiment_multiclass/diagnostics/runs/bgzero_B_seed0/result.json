@@ -1,0 +1,13 @@
+{
+  "method": "B",
+  "seed": 0,
+  "params": 1406500,
+  "best_score": 0.36571036576381627,
+  "best_step": 10000,
+  "train_minutes": 24.955548079808555,
+  "validation_minutes": 13.33645339012146,
+  "best_full_val_score": 0.3773132627480212,
+  "val_mode": "balanced",
+  "peak_gpu_gb": 8.79383808,
+  "run_dir": "/SimCLR/code/fm_missing_mri_test/experiment_multiclass/diagnostics/runs/bgzero_B_seed0"
+}

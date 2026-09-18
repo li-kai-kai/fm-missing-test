@@ -57,6 +57,9 @@ class Config:
     batch_size: int = 4          # 有效 batch size
     grad_accum: int = 1          # 显存不足时提高；有效 batch = batch_size * grad_accum
     tumor_center_prob: float = 0.5   # 50% 围绕肿瘤，50% 随机脑区
+    # ---- 诊断专用开关；默认值 == 冻结行为，正式实验不受影响 ----
+    augment: bool = True                 # False 时不施加任何增强（小样本拟合检查用）
+    aug_keep_background_zero: bool = False   # True 时增强只在脑支撑内施加，背景保持严格 0
     lr: float = 1e-4
     weight_decay: float = 1e-5
     max_steps: int = 10_000      # 每个模型 10,000 次优化器更新

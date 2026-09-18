@@ -1,0 +1,9 @@
+[orch3] 等待第二段流水线 PID=52524 Thu Sep 17 16:24:35 CST 2026
+[orch3] 开始测试集评估 Thu Sep 17 17:49:35 CST 2026
+[orch3] 原始 B 退出码=0 Thu Sep 17 17:58:19 CST 2026
+[orch3] 原始 A 退出码=0 Thu Sep 17 17:59:27 CST 2026
+[orch3] bgzero B 退出码=0 Thu Sep 17 18:08:11 CST 2026
+[orch3] bgzero A 退出码=0 Thu Sep 17 18:09:18 CST 2026
+[orch3] long B 退出码=0 Thu Sep 17 18:18:03 CST 2026
+[orch3] 报告 退出码=0 Thu Sep 17 18:18:05 CST 2026
+[orch3] 全部完成 Thu Sep 17 18:18:05 CST 2026

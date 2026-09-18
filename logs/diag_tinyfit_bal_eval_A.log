@@ -1,0 +1,7 @@
+== 诊断 fit 设备=cuda ==
+-- 检查 fit --
+[A seed=0] 载入 experiment_multiclass/diagnostics/runs/tiny-fit_A_seed0_balanced/best.pt step=3000
+  train: WT Dice=0.9411 (掩蔽后 0.9690) 碎块中位=2
+  test: WT Dice=0.7055 (掩蔽后 0.7337) 碎块中位=24
+  -> /SimCLR/code/fm_missing_mri_test/experiment_multiclass/diagnostics/fit_A_seed0_tiny-fit_A_seed0_balanced.json
+-- 检查 fit 用时 0.3 min --

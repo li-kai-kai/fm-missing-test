@@ -144,6 +144,9 @@ def train_one(method: str, cfg: Config, seed: int, splits: dict,
         "n_train": len(splits["train"]), "n_val": len(splits["val"]),
         "train_cases": splits["train"], "val_cases": splits["val"],
         "val_mode": cfg.val_mode,
+        "augment": cfg.augment,
+        "aug_keep_background_zero": cfg.aug_keep_background_zero,
+        "tumor_center_prob": cfg.tumor_center_prob,
         "val_assignments": assignments,
         "checkpoint_selection": "mean_of_scenario_region_mean_dice",
     }
@@ -194,7 +197,9 @@ def train_one(method: str, cfg: Config, seed: int, splits: dict,
         # ---- 一个优化器更新 ----
         batch = make_batch(store, splits["train"], seed, step, cfg.patch,
                            cfg.tumor_center_prob, cfg.batch_size,
-                           n_classes=cfg.n_classes, scenario_order=cfg.scenarios)
+                           augment=cfg.augment, n_classes=cfg.n_classes,
+                           scenario_order=cfg.scenarios,
+                           keep_background_zero=cfg.aug_keep_background_zero)
         b = _to_device(batch, device)
         if method == "A":
             loss, parts = forward_loss_A(model, b["mri"], b["avail"], b["y1"], cfg)

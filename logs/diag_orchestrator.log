@@ -1,0 +1,7 @@
+[orch] 等待 GPU 检查链 PID=51018 Thu Sep 17 15:12:56 CST 2026
+[orch] 检查链结束，开始 tiny-fit Thu Sep 17 15:37:17 CST 2026
+[orch] tiny-fit 退出码=0 Thu Sep 17 15:43:41 CST 2026
+[orch] bgzero 退出码=0 Thu Sep 17 16:23:42 CST 2026
+[orch] long 退出码=0 Thu Sep 17 17:28:15 CST 2026
+[orch] report 退出码=0 Thu Sep 17 17:28:17 CST 2026
+[orch] 全部完成 Thu Sep 17 17:28:17 CST 2026

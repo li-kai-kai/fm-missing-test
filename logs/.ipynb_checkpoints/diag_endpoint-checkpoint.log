@@ -1,0 +1,11 @@
+== 诊断 endpoint 设备=cuda ==
+-- 检查 endpoint --
+[B seed=0] 载入 /SimCLR/code/fm_missing_mri_test/experiment_multiclass/runs/B_seed0/best.pt step=10000
+  端点 ing_027 missing_t1ce: 8步 Dice=0.636 中位间隔=0.982 16步 Dice=0.603 中位间隔=0.983 32步 Dice=0.576 中位间隔=0.982 64步 Dice=0.560 中位间隔=0.982 128步 Dice=0.551 中位间隔=0.982
+  端点 ing_027 missing_flair: 8步 Dice=0.509 中位间隔=0.984 16步 Dice=0.454 中位间隔=0.984 32步 Dice=0.427 中位间隔=0.984 64步 Dice=0.412 中位间隔=0.984 128步 Dice=0.404 中位间隔=0.984
+  端点 ing_035 missing_t1ce: 8步 Dice=0.350 中位间隔=0.982 16步 Dice=0.321 中位间隔=0.983 32步 Dice=0.305 中位间隔=0.983 64步 Dice=0.297 中位间隔=0.983 128步 Dice=0.292 中位间隔=0.983
+  端点 ing_035 missing_flair: 8步 Dice=0.054 中位间隔=0.985 16步 Dice=0.050 中位间隔=0.985 32步 Dice=0.048 中位间隔=0.985 64步 Dice=0.047 中位间隔=0.985 128步 Dice=0.046 中位间隔=0.985
+  端点 ing_051 missing_t1ce: 8步 Dice=0.669 中位间隔=0.982 16步 Dice=0.630 中位间隔=0.983 32步 Dice=0.609 中位间隔=0.983 64步 Dice=0.597 中位间隔=0.982 128步 Dice=0.591 中位间隔=0.982
+  端点 ing_051 missing_flair: 8步 Dice=0.329 中位间隔=0.985 16步 Dice=0.326 中位间隔=0.985 32步 Dice=0.330 中位间隔=0.985 64步 Dice=0.333 中位间隔=0.985 128步 Dice=0.335 中位间隔=0.985
+  -> /SimCLR/code/fm_missing_mri_test/experiment_multiclass/diagnostics/endpoint_B_seed0.json
+-- 检查 endpoint 用时 9.8 min --

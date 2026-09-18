@@ -271,18 +271,35 @@ def sample_augmentation(rng: np.random.Generator, n_mod: int):
     return {"flips": flips, "scales": scales, "shifts": shifts, "noise_sd": noise_sd}
 
 
-def apply_augmentation(patch_img: np.ndarray, patch_seg: np.ndarray, aug: dict):
-    """patch_img [4,64,64,64]；patch_seg [64,64,64] uint8。就地返回新数组。"""
+def apply_augmentation(patch_img: np.ndarray, patch_seg: np.ndarray, aug: dict,
+                       support: np.ndarray | None = None):
+    """patch_img [4,64,64,64]；patch_seg [64,64,64] uint8。就地返回新数组。
+
+    support 非 None 时（诊断变体 `aug_keep_background_zero`），仿射与噪声只作用在
+    脑支撑内，脑外保持严格 0 —— 缓存里脑外本来就是 0，而增强的 shift 会把它变成
+    非零，推理时却又是 0，这个错位正是本变体要排除的因素。
+    support 与 patch_seg 同形状，必须跟着 patch_seg 做同样的翻转。
+    """
     ax = [1, 2, 3]
     for a, f in zip(ax, aug["flips"]):
         if f:
             patch_img = np.flip(patch_img, axis=a)
             patch_seg = np.flip(patch_seg, axis=0 if a == 1 else (1 if a == 2 else 2))
-    patch_img = patch_img * aug["scales"].reshape(-1, 1, 1, 1) + aug["shifts"].reshape(-1, 1, 1, 1)
+            if support is not None:
+                support = np.flip(support, axis=0 if a == 1 else (1 if a == 2 else 2))
+    scales = aug["scales"].reshape(-1, 1, 1, 1)
+    shifts = aug["shifts"].reshape(-1, 1, 1, 1)
+    patch_img = patch_img * scales + shifts
+    if support is not None:
+        m3 = support.reshape(1, *support.shape)          # [1,p,p,p]，按通道广播
+        patch_img = np.where(m3, patch_img, 0.0)
     if aug["noise_sd"] > 0:
         # 噪声只加在可用模态上；被隐藏模态必须保持严格为 0
         noise = aug["rng"].normal(0.0, aug["noise_sd"], size=patch_img.shape).astype(np.float32)
-        patch_img = patch_img + noise * aug["avail_mask"]
+        noise = noise * aug["avail_mask"]
+        if support is not None:
+            noise = noise * support.reshape(1, *support.shape)
+        patch_img = patch_img + noise
     return np.ascontiguousarray(patch_img, dtype=np.float32), np.ascontiguousarray(patch_seg)
 
 
@@ -299,7 +316,8 @@ def step_rngs(seed: int, step: int):
 
 def make_batch(store, cases: Sequence[str], seed: int, step: int,
                patch: int, prob_tumor: float, batch_size: int, augment: bool = True,
-               n_classes: int = 2, scenario_order=None):
+               n_classes: int = 2, scenario_order=None,
+               keep_background_zero: bool = False):
     """构造一个确定性 batch。返回 numpy 数组，A/B 共用同一份。
 
     cases 是候选病例池，batch_size 是实际样本数（方案 §4.3：有效 batch size = 4）。
@@ -329,10 +347,16 @@ def make_batch(store, cases: Sequence[str], seed: int, step: int,
         pi = pi * av.reshape(-1, 1, 1, 1)   # 归一化之后置零被隐藏模态（方案 §2.3-5）
 
         if augment:
+            sup = None
+            if keep_background_zero:
+                if not hasattr(case, "support"):
+                    raise AttributeError(
+                        "keep_background_zero=True 需要病例带 support 掩码；该病例对象没有此属性")
+                sup = case.support[sl]
             aug = sample_augmentation(rng, 4)
             aug["rng"] = rng
             aug["avail_mask"] = av.reshape(-1, 1, 1, 1)
-            pi, ps = apply_augmentation(pi, ps, aug)
+            pi, ps = apply_augmentation(pi, ps, aug, support=sup)
             # 增强后再置零，保证被隐藏模态严格为 0
             pi = pi * av.reshape(-1, 1, 1, 1)
 

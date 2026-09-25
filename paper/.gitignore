@@ -1,0 +1,9 @@
+# LaTeX 中间产物，可由 main.tex 重新生成
+*.aux
+*.log
+*.blg
+*.bbl
+*.out
+*.synctex.gz
+*.fls
+*.fdb_latexmk

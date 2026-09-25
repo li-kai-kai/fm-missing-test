@@ -1,0 +1,29 @@
+\begin{table*}[t]
+\centering
+\caption{Four-class missing-modality segmentation on the BraTS test split (20 patients, mean $\pm$ std over three training seeds). Dice and recall are computed per patient then averaged; HD95 is in mm. ``blobs'' is the median number of connected components of the predicted whole-tumour mask.}
+\label{tab:main}
+\begin{tabular}{llcccccc}
+\toprule
+Missing & Region & \multicolumn{2}{c}{Dice $\uparrow$} & \multicolumn{2}{c}{HD95 $\downarrow$} & \multicolumn{2}{c}{Sec./vol. $\downarrow$} \\
+\cmidrule(lr){3-4}\cmidrule(lr){5-6}\cmidrule(lr){7-8}
+& & A (disc.) & B (FM) & A & B & A & B \\
+\midrule
+w/o T1 & WT & $0.850\pm0.011$ & $0.627\pm0.064$ & 12.9 & 72.8 & 0.42 & 6.06 \\
+w/o T1 & TC & $0.739\pm0.032$ & $0.415\pm0.055$ & 13.7 & 63.1 & 0.42 & 6.06 \\
+w/o T1 & ET & $0.664\pm0.030$ & $0.284\pm0.044$ & 9.2 & 51.1 & 0.42 & 6.06 \\
+\addlinespace
+w/o T2 & WT & $0.847\pm0.009$ & $0.621\pm0.023$ & 15.8 & 90.2 & 0.41 & 6.05 \\
+w/o T2 & TC & $0.747\pm0.014$ & $0.391\pm0.046$ & 18.7 & 69.6 & 0.41 & 6.05 \\
+w/o T2 & ET & $0.690\pm0.033$ & $0.288\pm0.054$ & 10.3 & 56.3 & 0.41 & 6.05 \\
+\addlinespace
+w/o T1ce & WT & $0.859\pm0.018$ & $0.622\pm0.063$ & 15.2 & 76.4 & 0.41 & 6.04 \\
+w/o T1ce & TC & $0.631\pm0.014$ & $0.350\pm0.020$ & 20.3 & 57.9 & 0.41 & 6.04 \\
+w/o T1ce & ET & $0.422\pm0.038$ & $0.122\pm0.044$ & 15.5 & 52.7 & 0.41 & 6.04 \\
+\addlinespace
+w/o FLAIR & WT & $0.741\pm0.053$ & $0.343\pm0.075$ & 22.6 & 92.8 & 0.41 & 6.05 \\
+w/o FLAIR & TC & $0.675\pm0.048$ & $0.285\pm0.087$ & 26.9 & 76.3 & 0.41 & 6.05 \\
+w/o FLAIR & ET & $0.631\pm0.007$ & $0.217\pm0.061$ & 10.0 & 70.9 & 0.41 & 6.05 \\
+\addlinespace
+\bottomrule
+\end{tabular}
+\end{table*}

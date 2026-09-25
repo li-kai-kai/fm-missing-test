@@ -5,13 +5,22 @@ from types import SimpleNamespace
 import numpy as np
 import torch
 
-from fmexp.config import Config
-from fmexp.data import apply_augmentation, make_batch
-from fmexp.diagnostics import (bayes_velocity_mse, conditioning_variants, endpoint_margin, final_state,
+
+import os
+import sys
+
+# 让 `python3 -m unittest discover -s tests` 在仓库根目录下也能
+# 解析 fm_missing_mri_test.fmexp（父目录需在 sys.path 上）。
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(
+    os.path.abspath(__file__)))))
+
+from fm_missing_mri_test.fmexp.config import Config
+from fm_missing_mri_test.fmexp.data import apply_augmentation, make_batch
+from fm_missing_mri_test.fmexp.diagnostics import (bayes_velocity_mse, conditioning_variants, endpoint_margin, final_state,
                                connected_component_stats, error_location,
                                mask_to_support, steps_sweep, trajectory_diagnostic,
                                velocity_mse_by_t)
-from fmexp.infer import init_noise_for_case
+from fm_missing_mri_test.fmexp.infer import init_noise_for_case
 
 
 class BayesReferenceTests(unittest.TestCase):

@@ -20,13 +20,13 @@ import nibabel as nib
 import numpy as np
 import torch
 
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from fmexp.config import Config, SCENARIO_ORDER, PRIMARY_SCENARIO, load_config
-from fmexp.data import VolumeStore, avail_vector, decode_segmentation
-from fmexp.infer import init_noise_for_case, predict_volume_A, predict_volume_B
-from fmexp.metrics import segmentation_metrics, region_masks, gt_hd95_cache, paired_bootstrap, summarize
-from fmexp.train import load_checkpoint
-from fmexp.unet import build_model
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from fm_missing_mri_test.fmexp.config import Config, SCENARIO_ORDER, PRIMARY_SCENARIO, load_config
+from fm_missing_mri_test.fmexp.data import VolumeStore, avail_vector, decode_segmentation
+from fm_missing_mri_test.fmexp.infer import init_noise_for_case, predict_volume_A, predict_volume_B
+from fm_missing_mri_test.fmexp.metrics import segmentation_metrics, region_masks, gt_hd95_cache, paired_bootstrap, summarize
+from fm_missing_mri_test.fmexp.train import load_checkpoint
+from fm_missing_mri_test.fmexp.unet import build_model
 
 METRIC_COLS = ["dice", "recall", "hd95", "pred_voxels", "gt_voxels",
                "pred_empty", "gt_empty", "complete_miss", "hd95_failed", "both_empty"]

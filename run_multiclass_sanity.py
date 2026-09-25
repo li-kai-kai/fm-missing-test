@@ -11,10 +11,10 @@ os.environ.setdefault("PYTORCH_ALLOC_CONF", "expandable_segments:True")
 import numpy as np
 import torch
 
-from fmexp.config import Config, save_config
-from fmexp.data import VolumeStore, make_batch, preprocess_case
-from fmexp.train import _to_device, forward_loss_A, forward_loss_B, validate
-from fmexp.unet import build_model, n_params
+from fm_missing_mri_test.fmexp.config import Config, save_config
+from fm_missing_mri_test.fmexp.data import VolumeStore, make_batch, preprocess_case
+from fm_missing_mri_test.fmexp.train import _to_device, forward_loss_A, forward_loss_B, validate
+from fm_missing_mri_test.fmexp.unet import build_model, n_params
 
 
 def main():

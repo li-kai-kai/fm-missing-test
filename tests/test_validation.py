@@ -10,8 +10,17 @@ from unittest.mock import patch
 import numpy as np
 import torch
 
-from fmexp.config import Config, SCENARIO_ORDER
-from fmexp.train import train_one, validate, validation_assignments
+
+import os
+import sys
+
+# 让 `python3 -m unittest discover -s tests` 在仓库根目录下也能
+# 解析 fm_missing_mri_test.fmexp（父目录需在 sys.path 上）。
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(
+    os.path.abspath(__file__)))))
+
+from fm_missing_mri_test.fmexp.config import Config, SCENARIO_ORDER
+from fm_missing_mri_test.fmexp.train import train_one, validate, validation_assignments
 
 
 class ValidationTests(unittest.TestCase):
@@ -35,8 +44,8 @@ class ValidationTests(unittest.TestCase):
             self.assertTrue(torch.all(mri[av == 0] == 0))
             return np.ones(shape)
 
-        with patch("fmexp.train.predict_volume_A", side_effect=predict_a), \
-             patch("fmexp.train.predict_volume_B", return_value=np.ones(shape, np.uint8)):
+        with patch("fm_missing_mri_test.fmexp.train.predict_volume_A", side_effect=predict_a), \
+             patch("fm_missing_mri_test.fmexp.train.predict_volume_B", return_value=np.ones(shape, np.uint8)):
             for method in ("A", "B"):
                 balanced = validate(model, method, Config(), store, cases, "cpu", assignments)
                 full = validate(model, method, Config(), store, cases, "cpu")
@@ -67,12 +76,12 @@ class ValidationTests(unittest.TestCase):
             return model(torch.ones(1, 1)).square().mean(), {}
 
         with tempfile.TemporaryDirectory() as tmp, \
-             patch("fmexp.train.VolumeStore", return_value={}), \
-             patch("fmexp.train.build_model", return_value=model), \
-             patch("fmexp.train.make_batch", return_value={}), \
-             patch("fmexp.train._to_device", return_value={"mri": None, "avail": None, "y1": None}), \
-             patch("fmexp.train.forward_loss_A", side_effect=lambda m, *args: fake_loss(m)), \
-             patch("fmexp.train.validate", side_effect=fake_validate):
+             patch("fm_missing_mri_test.fmexp.train.VolumeStore", return_value={}), \
+             patch("fm_missing_mri_test.fmexp.train.build_model", return_value=model), \
+             patch("fm_missing_mri_test.fmexp.train.make_batch", return_value={}), \
+             patch("fm_missing_mri_test.fmexp.train._to_device", return_value={"mri": None, "avail": None, "y1": None}), \
+             patch("fm_missing_mri_test.fmexp.train.forward_loss_A", side_effect=lambda m, *args: fake_loss(m)), \
+             patch("fm_missing_mri_test.fmexp.train.validate", side_effect=fake_validate):
             result = train_one("A", cfg, 0, splits, "unused", tmp,
                                torch.device("cpu"), log=lambda msg: None)
             logs = [json.loads(line) for line in (Path(tmp) / "log.jsonl").read_text().splitlines()]

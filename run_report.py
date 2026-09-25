@@ -16,8 +16,8 @@ from collections import defaultdict
 
 import numpy as np
 
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from fmexp.config import PRIMARY_SCENARIO, SCENARIO_ORDER
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from fm_missing_mri_test.fmexp.config import PRIMARY_SCENARIO, SCENARIO_ORDER
 
 
 def load_json(p, default=None):
@@ -55,10 +55,10 @@ def main():
     args = ap.parse_args()
     root = os.path.dirname(os.path.abspath(__file__))
     out = os.path.join(root, args.out)
-    from fmexp.config import load_config
+    from fm_missing_mri_test.fmexp.config import load_config
     config_path = os.path.join(out, "config_preprocess.yaml")
     if os.path.exists(config_path) and load_config(config_path).n_classes == 4:
-        from fmexp.multiclass_report import write_report
+        from fm_missing_mri_test.fmexp.multiclass_report import write_report
         print(write_report(out, args.split, args.run_tag))
         return
 

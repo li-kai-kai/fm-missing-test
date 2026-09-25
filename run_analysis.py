@@ -15,9 +15,9 @@ import sys
 
 import numpy as np
 
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from fmexp.config import PRIMARY_SCENARIO, SCENARIO_ORDER
-from run_eval import coerce_row
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from fm_missing_mri_test.fmexp.config import PRIMARY_SCENARIO, SCENARIO_ORDER
+from fm_missing_mri_test.run_eval import coerce_row
 
 
 def main():

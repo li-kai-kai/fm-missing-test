@@ -21,15 +21,15 @@ import numpy as np
 import torch
 import torch.nn as nn
 
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from fmexp.config import Config, SCENARIO_ORDER
-from fmexp.data import avail_vector, load_case, patch_slices, step_rngs
-from fmexp.infer import (_velocity_field, init_noise_for_case, plan_windows,
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from fm_missing_mri_test.fmexp.config import Config, SCENARIO_ORDER
+from fm_missing_mri_test.fmexp.data import avail_vector, load_case, patch_slices, step_rngs
+from fm_missing_mri_test.fmexp.infer import (_velocity_field, init_noise_for_case, plan_windows,
                          predict_volume_A, predict_volume_B)
-from fmexp.losses import loss_A, loss_B
-from fmexp.metrics import case_metrics, dice_foreground
-from fmexp.train import VolumeStore
-from fmexp.unet import build_model, n_params
+from fm_missing_mri_test.fmexp.losses import loss_A, loss_B
+from fm_missing_mri_test.fmexp.metrics import case_metrics, dice_foreground
+from fm_missing_mri_test.fmexp.train import VolumeStore
+from fm_missing_mri_test.fmexp.unet import build_model, n_params
 
 
 # ------------------------------------------------------------------ 数值自检

@@ -12,10 +12,10 @@ import sys
 import numpy as np
 import matplotlib.pyplot as plt
 
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from fmexp.config import SCENARIO_ORDER, PRIMARY_SCENARIO
-from fmexp.metrics import paired_bootstrap
-from fmexp.viz import (ACCENT, AXIS, GRID, INK, INK2, MUTED, SERIES, SERIES_LABEL,
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from fm_missing_mri_test.fmexp.config import SCENARIO_ORDER, PRIMARY_SCENARIO
+from fm_missing_mri_test.fmexp.metrics import paired_bootstrap
+from fm_missing_mri_test.fmexp.viz import (ACCENT, AXIS, GRID, INK, INK2, MUTED, SERIES, SERIES_LABEL,
                        SCEN_LABEL, apply_style, finish, _strip)
 
 
@@ -165,7 +165,7 @@ def main():
 
     mp = os.path.join(out, "metrics_per_case.csv")
     if not os.path.exists(mp) and glob.glob(os.path.join(out, "metrics_per_case_seed*.csv")):
-        from run_eval import rebuild_combined
+        from fm_missing_mri_test.run_eval import rebuild_combined
         rebuild_combined(out)          # 由逐种子结果合并，不重跑推理
     if os.path.exists(mp):
         metrics = list(csv.DictReader(open(mp)))

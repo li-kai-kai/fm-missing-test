@@ -22,9 +22,9 @@ os.environ.setdefault("PYTORCH_ALLOC_CONF", "expandable_segments:True")
 
 import torch
 
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from fmexp.config import load_config, save_config
-from fmexp.train import train_one
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from fm_missing_mri_test.fmexp.config import load_config, save_config
+from fm_missing_mri_test.fmexp.train import train_one
 
 # 每个实验的配置覆盖与说明
 EXPERIMENTS = {

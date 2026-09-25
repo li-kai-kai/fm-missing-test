@@ -28,17 +28,17 @@ import nibabel as nib
 import numpy as np
 import torch
 
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from fmexp.config import load_config
-from fmexp.data import VolumeStore, avail_vector, load_case
-from fmexp.diagnostics import (conditioning_variants, connected_component_stats,
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from fm_missing_mri_test.fmexp.config import load_config
+from fm_missing_mri_test.fmexp.data import VolumeStore, avail_vector, load_case
+from fm_missing_mri_test.fmexp.diagnostics import (conditioning_variants, connected_component_stats,
                                distance_to_support, endpoint_margin, error_location,
                                final_state, mask_to_support,
                                trajectory_diagnostic, velocity_mse_by_t,
                                steps_sweep, _region_dice)
-from fmexp.infer import init_noise_for_case, predict_volume_A, predict_volume_B
-from fmexp.train import load_checkpoint
-from fmexp.unet import build_model
+from fm_missing_mri_test.fmexp.infer import init_noise_for_case, predict_volume_A, predict_volume_B
+from fm_missing_mri_test.fmexp.train import load_checkpoint
+from fm_missing_mri_test.fmexp.unet import build_model
 
 REGIONS = ("WT", "TC", "ET")
 
@@ -459,7 +459,7 @@ def main():
     root = os.path.dirname(os.path.abspath(__file__))
     out = args.out if os.path.isabs(args.out) else os.path.join(root, args.out)
     if args.report:
-        from fmexp.diag_report import write_diag_report
+        from fm_missing_mri_test.fmexp.diag_report import write_diag_report
         p = write_diag_report(out)
         print(f"报告 -> {p}")
         return

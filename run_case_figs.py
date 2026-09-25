@@ -17,14 +17,14 @@ import matplotlib.pyplot as plt
 import numpy as np
 import torch
 
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from fmexp.config import Config, MODALITIES, SCENARIOS, PRIMARY_SCENARIO
-from fmexp.data import VolumeStore, avail_vector
-from fmexp.infer import init_noise_for_case, predict_volume_A, predict_volume_B
-from fmexp.metrics import dice_foreground
-from fmexp.train import load_checkpoint
-from fmexp.unet import build_model
-from fmexp.viz import (AXIS, INK, MUTED, SERIES, SERIES_LABEL, SCEN_LABEL,
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from fm_missing_mri_test.fmexp.config import Config, MODALITIES, SCENARIOS, PRIMARY_SCENARIO
+from fm_missing_mri_test.fmexp.data import VolumeStore, avail_vector
+from fm_missing_mri_test.fmexp.infer import init_noise_for_case, predict_volume_A, predict_volume_B
+from fm_missing_mri_test.fmexp.metrics import dice_foreground
+from fm_missing_mri_test.fmexp.train import load_checkpoint
+from fm_missing_mri_test.fmexp.unet import build_model
+from fm_missing_mri_test.fmexp.viz import (AXIS, INK, MUTED, SERIES, SERIES_LABEL, SCEN_LABEL,
                        apply_style, best_slice, draw_slice, finish)
 
 

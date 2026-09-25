@@ -10,15 +10,24 @@ import nibabel as nib
 import numpy as np
 import torch
 
-from fmexp.config import Config, save_config
-from fmexp.data import (encode_segmentation, decode_segmentation, make_batch,
+
+import os
+import sys
+
+# 让 `python3 -m unittest discover -s tests` 在仓库根目录下也能
+# 解析 fm_missing_mri_test.fmexp（父目录需在 sys.path 上）。
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(
+    os.path.abspath(__file__)))))
+
+from fm_missing_mri_test.fmexp.config import Config, save_config
+from fm_missing_mri_test.fmexp.data import (encode_segmentation, decode_segmentation, make_batch,
                         avail_vector, preprocess_case, VolumeStore)
-from fmexp.infer import init_noise_for_case, predict_volume_A, predict_volume_B
-from fmexp.metrics import region_masks, segmentation_metrics
-from fmexp.train import forward_loss_A, forward_loss_B, validation_assignments, validate, train_one
-from fmexp.unet import build_model
-from run_eval import build_summary, paired_diffs, rebuild_combined, write_csv, METRIC_COLS, evaluate_split
-from fmexp.multiclass_report import write_report
+from fm_missing_mri_test.fmexp.infer import init_noise_for_case, predict_volume_A, predict_volume_B
+from fm_missing_mri_test.fmexp.metrics import region_masks, segmentation_metrics
+from fm_missing_mri_test.fmexp.train import forward_loss_A, forward_loss_B, validation_assignments, validate, train_one
+from fm_missing_mri_test.fmexp.unet import build_model
+from fm_missing_mri_test.run_eval import build_summary, paired_diffs, rebuild_combined, write_csv, METRIC_COLS, evaluate_split
+from fm_missing_mri_test.fmexp.multiclass_report import write_report
 
 
 class MulticlassTests(unittest.TestCase):

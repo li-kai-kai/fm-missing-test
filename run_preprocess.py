@@ -13,9 +13,9 @@ from collections import Counter
 
 import numpy as np
 
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from fmexp.config import Config, MODALITIES, SCENARIOS, TASKS, save_config, load_config
-from fmexp.data import (LABEL_MAPPING, all_labeled_cases, case_id, load_case,
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from fm_missing_mri_test.fmexp.config import Config, MODALITIES, SCENARIOS, TASKS, save_config, load_config
+from fm_missing_mri_test.fmexp.data import (LABEL_MAPPING, all_labeled_cases, case_id, load_case,
                         make_splits, preprocess_case, select_cases, MULTICLASS_LABEL_MAPPING)
 
 

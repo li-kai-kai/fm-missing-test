@@ -33,6 +33,10 @@ def main():
     ap.add_argument("--val-every", type=int, default=None, help="验证间隔（默认 2000 次更新）")
     ap.add_argument("--val-mode", choices=["balanced", "full"], default="balanced",
                     help="balanced: 每例固定一个场景；full: 每例全部场景")
+    ap.add_argument("--fm-fg-weight", type=float, default=None,
+                    help="修复实验：非背景体素的速度损失加权倍数（默认 0）")
+    ap.add_argument("--fm-time-gamma", type=float, default=None,
+                    help="修复实验：速度损失时间加权指数 w(t)∝(1-t+eps)^-gamma（默认 0）")
     args = ap.parse_args()
 
     root = os.path.dirname(os.path.abspath(__file__))
@@ -47,6 +51,10 @@ def main():
         cfg.max_steps = args.steps
     if args.lr:
         cfg.lr = args.lr
+    if args.fm_fg_weight is not None:
+        cfg.fm_fg_weight = args.fm_fg_weight
+    if args.fm_time_gamma is not None:
+        cfg.fm_time_gamma = args.fm_time_gamma
 
     splits = json.load(open(os.path.join(out, "splits.json")))
     run_dir = os.path.join(out, "runs", f"{args.method}_seed{args.seed}{args.tag}")

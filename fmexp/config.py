@@ -63,6 +63,12 @@ class Config:
     lr: float = 1e-4
     weight_decay: float = 1e-5
     max_steps: int = 10_000      # 每个模型 10,000 次优化器更新
+
+    # ---- 修复实验：B 的速度损失体素加权（默认 0 == 冻结行为，既有结果不受影响）----
+    # 两条轴分别对应诊断报告定位的两个机制，可单独开启也可叠加。
+    fm_fg_weight: float = 0.0    # 非背景体素额外加权倍数，针对「L2 被背景体素主导」
+    fm_time_gamma: float = 0.0   # w(t) ∝ (1-t+eps)^-gamma，针对「高 t 段误差被 1/(1-t) 放大」
+    fm_time_eps: float = 0.1     # 上式的 eps，保证权重有界（t=1 处最大 10^gamma）
     val_every: int = 2_000
     val_mode: str = "balanced"  # 每例固定一个场景；full 可恢复每例全部场景
     seeds: tuple = (0, 1, 2)

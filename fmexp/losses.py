@@ -37,6 +37,17 @@ def loss_A(logits: torch.Tensor, y1: torch.Tensor) -> tuple:
     return d + c, {"dice": d.detach(), "ce": c.detach()}
 
 
-def loss_B(pred_v: torch.Tensor, target_v: torch.Tensor) -> tuple:
-    mse = F.mse_loss(pred_v, target_v)
+def loss_B(pred_v: torch.Tensor, target_v: torch.Tensor,
+           weight: torch.Tensor | None = None) -> tuple:
+    """纯速度 MSE。weight=None 时退化为原始实现（逐位一致）。
+
+    weight 为逐体素权重时按加权平均，且除以权重总和，因此与无权重的
+    整体素平均同尺度，两者可以直接对照大小。
+    """
+    if weight is None:
+        mse = F.mse_loss(pred_v, target_v)
+    else:
+        err2 = (pred_v - target_v) ** 2
+        w = weight.expand_as(err2)
+        mse = (w * err2).sum() / w.sum().clamp_min(1e-6)
     return mse, {"mse": mse.detach()}

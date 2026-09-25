@@ -44,6 +44,26 @@ def forward_loss_A(model, mri, avail, y1, cfg):
     return loss_A(logits, y1)
 
 
+def loss_weight_B(cfg, y1, tc):
+    """修复实验的逐体素损失权重；两个系数都为 0 时返回 None，即原始实现。
+
+    * ``fm_fg_weight``：非背景体素加权。诊断显示背景体素占约 84%，
+      整体 MSE 因此掩盖了决定 argmax 的区域。
+    * ``fm_time_gamma``：``w(t) ∝ (1-t+eps)^-gamma``。诊断显示每步速度误差随 t
+      上升，且该段的误差会被 ``1/(1-t)`` 放大到轨迹上。
+    两者正交，可叠加。
+    """
+    if cfg.fm_fg_weight <= 0 and cfg.fm_time_gamma <= 0:
+        return None
+    w = torch.ones_like(y1)
+    if cfg.fm_fg_weight > 0:
+        fg = (y1.argmax(dim=1, keepdim=True) > 0).to(w.dtype)
+        w = w * (1.0 + cfg.fm_fg_weight * fg)
+    if cfg.fm_time_gamma > 0:
+        w = w * (1.0 - tc + cfg.fm_time_eps).pow(-cfg.fm_time_gamma)
+    return w
+
+
 def forward_loss_B(model, mri, avail, y1, seed, step, cfg, device):
     y0, t = fm_noise(seed, step, mri.shape[0], mri.shape[2:], device, torch.float32,
                      n_ch=cfg.n_classes)
@@ -52,7 +72,7 @@ def forward_loss_B(model, mri, avail, y1, seed, step, cfg, device):
     tc = t.expand(t.shape[0], 1, *mri.shape[2:])
     x = torch.cat([mri, _expand_avail_t(avail, mri.shape), yt, tc], dim=1)
     pred_v = model(x)
-    return loss_B(pred_v, target_v)
+    return loss_B(pred_v, target_v, loss_weight_B(cfg, y1, tc))
 
 
 def validation_assignments(val_cases: Sequence[str], split_seed: int,
@@ -147,6 +167,9 @@ def train_one(method: str, cfg: Config, seed: int, splits: dict,
         "augment": cfg.augment,
         "aug_keep_background_zero": cfg.aug_keep_background_zero,
         "tumor_center_prob": cfg.tumor_center_prob,
+        "fm_fg_weight": cfg.fm_fg_weight,
+        "fm_time_gamma": cfg.fm_time_gamma,
+        "fm_time_eps": cfg.fm_time_eps,
         "val_assignments": assignments,
         "checkpoint_selection": "mean_of_scenario_region_mean_dice",
     }

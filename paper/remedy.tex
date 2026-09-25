@@ -1,25 +1,86 @@
 % 修复实验的内容集中在这里，等 run_remedy.sh 的结果出来后只改这一个文件。
-% 目前是占位内容，编译前必须替换。
 
 \newcommand{\REMEDYABSTRACT}{%
-\textbf{PLACEHOLDER --- remedy results pending.}%
+Both mechanisms are real, and one of them is locally actionable: reweighting the
+objective towards the decision region raises enhancing-tumour Dice from $0.228$
+to $0.306$, a gain that is significant in ten of twelve patient-paired cells,
+but it costs $0.222$ whole-tumour Dice, and reweighting towards the amplified
+late-time region degrades every region. Neither recovers the method. The
+failure therefore lies in the conditioning of the regression target rather than
+in the allocation of the loss.%
 }
 
 \newcommand{\REMEDYINTRO}{%
-\textbf{PLACEHOLDER --- remedy intro pending.}%
+Finally we ask whether the two mechanisms are \emph{actionable}. If the collapse
+were caused by the loss misallocating capacity, then correcting the allocation
+should help. Section~\ref{sec:remedy-results} reweights the same objective along
+the two axes the diagnostic identified and reports both what improves and what
+does not.%
 }
 
 \newcommand{\REMEDYCONTRIB}{%
-A test of two loss reweightings derived from those mechanisms, evaluated at
-three seeds against the same baseline.%
+A test of two loss reweightings derived from those mechanisms, showing that the
+decision-region mechanism is locally actionable --- it closes a fifth of the
+enhancing-tumour gap to the discriminative model --- while neither reweighting
+rescues whole-tumour segmentation. This locates the failure in the
+parameterisation of the regression target rather than in the allocation of the
+loss.%
 }
 
 \newcommand{\REMEDYSECTION}{%
-\subsection{Remedies}
+\subsection{Are the diagnosed mechanisms actionable?}
 \label{sec:remedy-results}
-\textbf{PLACEHOLDER --- remedy results pending.}%
+
+Table~\ref{tab:remedy} reports the two reweightings and their combination, each
+trained at three seeds with everything else identical to the baseline. Neither
+recovers whole-tumour segmentation, and the two axes behave very differently.
+
+\paragraph{Foreground weighting is locally effective but costs the primary
+metric.}
+Raising the weight of non-background voxels by $10\times$ --- the direct
+response to the observation that background occupies over $80\%$ of the sampled
+volume at two orders of magnitude lower error --- raises enhancing-tumour Dice from
+$0.228$ to $0.306$, a relative gain of $34\%$, and leaves tumour-core Dice
+essentially unchanged ($0.372$ against $0.360$). Patient-paired bootstrap gives
+a positive interval in ten of the twelve (seed, missing-pattern) cells for ET,
+against only one negative. The mechanism is therefore real: the background did
+dominate the objective, and the smallest class was the one paying for it.
+
+But whole-tumour Dice falls from $0.553$ to $0.331$, with eleven of twelve cells
+significantly negative and a mean paired difference of $-0.222$. The remedy
+trades the primary metric for the rarest one; it does not rescue the method.
+That the two regions move in opposite directions is itself informative: the
+velocity field is a single global object, so re-weighting voxels does not
+reallocate capacity within the field, it changes the field the model converges
+to. The background-dominated objective was evidently not the binding constraint
+on whole-tumour accuracy.
+
+\paragraph{Weighting the amplified region makes everything worse.}
+If the $1/(1-t)$ amplification of Eq.~\eqref{eq:sensitivity} were the operative problem, putting
+capacity where the amplification acts should help. It does the opposite: the
+late-time weight lowers whole-tumour Dice to $0.393$ (nine of twelve cells
+significantly negative), tumour-core to $0.237$ (ten of twelve) and
+enhancing-tumour to $0.110$ (nine of twelve). Combining both factors is worse
+still on whole-tumour Dice --- $0.288$, significantly negative in all twelve
+cells, mean paired difference $-0.265$ --- and returns enhancing-tumour Dice to
+the baseline ($0.217$ against $0.228$). The late-time weight cancels the one
+thing the foreground weight achieved.
+
+This is the sharper result. The diagnostic established that the velocity error
+grows with $t$ and that the target's sensitivity to posterior error diverges
+there; the natural reading, ``train harder where it is wrong'', is wrong. The
+high-$t$ target is not merely hard to fit, it is ill-conditioned: the same
+posterior error produces an unboundedly larger velocity error, so up-weighting
+it amplifies gradient noise rather than correcting a deficit, and it does so at
+the expense of the low-$t$ region that actually determines the trajectory. The
+problem is in the parameterisation, not in how the loss is spread over it ---
+which is why no reweighting of this objective recovers the method, and why
+changing what the network predicts (rather than how much each voxel counts) is
+the direction the diagnosis points to.%
 }
 
 \newcommand{\REMEDYCONCLUSION}{%
-\textbf{PLACEHOLDER --- remedy conclusion pending.}%
+Neither reweighting of the flow-matching objective recovers the method: the
+decision-region reweighting is locally effective on the smallest class but costs
+the primary metric, and the late-time reweighting degrades every region.%
 }

@@ -1,0 +1,16 @@
+\begin{table}[t]
+\centering
+\caption{Effect of the two loss reweightings on the four-class test split, averaged over the four missing-modality patterns. Mean $\pm$ std across three training seeds of the per-seed case-mean Dice. Neither reweighting recovers whole-tumour Dice; foreground weighting trades it for a consistent gain on the smallest class.}
+\label{tab:remedy}
+\begin{tabular}{lccc}
+\toprule
+Configuration & WT & TC & ET \\
+\midrule
+A (disc.) & $0.824\pm0.019$ & $0.698\pm0.026$ & $0.601\pm0.013$ \\
+B (baseline) & $0.553\pm0.029$ & $0.360\pm0.049$ & $0.228\pm0.048$ \\
+B + foreground & $0.331\pm0.098$ & $0.372\pm0.026$ & $0.306\pm0.010$ \\
+B + late-time & $0.393\pm0.162$ & $0.237\pm0.047$ & $0.110\pm0.033$ \\
+B + both & $0.288\pm0.066$ & $0.298\pm0.054$ & $0.217\pm0.066$ \\
+\bottomrule
+\end{tabular}
+\end{table}

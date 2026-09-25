@@ -134,6 +134,8 @@ def binary_table():
              r"\caption{Binary whole-tumour task (three seeds, 20 test patients). "
              r"Flow matching stays within $\sim$0.10 Dice here, unlike the "
              r"four-class task in Table~\ref{tab:main}.}", r"\label{tab:binary}",
+             r"\small",
+             r"\setlength{\tabcolsep}{3pt}",
              r"\begin{tabular}{lcccc}", r"\toprule",
              r"Scenario & $A$ Dice & $B$ Dice & $A$ sec. & $B$ sec. \\", r"\midrule"]
     for scen in ["C0", "C1", "C2"]:
@@ -144,6 +146,66 @@ def binary_table():
         lines.append(f"{SCEN_LABEL[scen]} & ${fnum(da)}\\pm{fnum(ds)}$ & "
                      f"${fnum(dba)}\\pm{fnum(dbs)}$ & {fnum(sa,2)} & {fnum(sb,2)} \\\\")
     lines += [r"\bottomrule", r"\end{tabular}", r"\end{table}"]
+    return "\n".join(lines)
+
+
+ARMS = [
+    ("_fgw9", "B + foreground"),
+    ("_tg1", "B + late-time"),
+    ("_fgw9tg1", "B + both"),
+]
+
+
+def remedy_table():
+    """修复臂的测试集结果，逐种子先算均值再对种子取 mean±std。"""
+    ev = os.path.join(ROOT, "experiment_multiclass/evaluation/test")
+
+    def per_seed(path, model=None):
+        rows = read_csv(path)
+        if model:
+            rows = [r for r in rows if r["model"] == model]
+        agg = defaultdict(list)
+        for r in rows:
+            agg[(r["seed"], r["region"])].append(float(r["dice"]))
+        return {k: sum(v) / len(v) for k, v in agg.items()}
+
+    main_p = os.path.join(ev, "main/metrics_per_case.csv")
+    series = [("A (disc.)", per_seed(main_p, "A"), None),
+              ("B (baseline)", per_seed(main_p, "B"), None)]
+    notes = {}
+    for tag, label in ARMS:
+        p = os.path.join(ev, tag, "metrics_per_case.csv")
+        if not os.path.exists(p):
+            continue
+        d = per_seed(p)
+        seeds = sorted({k[0] for k in d})
+        series.append((label, d, None))
+        if len(seeds) < 3:
+            notes[label] = len(seeds)
+            print(f"注意：{label} 只评估了 {len(seeds)} 个种子")
+
+    lines = [r"\begin{table}[t]", r"\centering",
+             r"\caption{Effect of the two loss reweightings on the four-class "
+             r"test split, averaged over the four missing-modality patterns. "
+             r"Mean $\pm$ std across three training seeds of the per-seed "
+             r"case-mean Dice. Neither reweighting recovers whole-tumour Dice; "
+             r"foreground weighting trades it for a consistent gain on the "
+             r"smallest class.}", r"\label{tab:remedy}",
+             r"\begin{tabular}{lccc}", r"\toprule",
+             r"Configuration & WT & TC & ET \\", r"\midrule"]
+    for label, d, _ in series:
+        cells = []
+        for region in REGION_ORDER:
+            vals = [v for (s, r), v in d.items() if r == region]
+            m, sd = mean_std(sorted(vals))
+            cells.append(f"${fnum(m)}\\pm{fnum(sd)}$" if sd else f"${fnum(m)}$")
+        star = r"$^{\dagger}$" if label in notes else ""
+        lines.append(f"{label}{star} & " + " & ".join(cells) + r" \\")
+    lines += [r"\bottomrule", r"\end{tabular}"]
+    if notes:
+        lines.append(r"\\[2pt] \footnotesize $^{\dagger}$ evaluated on a single "
+                     r"training seed.")
+    lines.append(r"\end{table}")
     return "\n".join(lines)
 
 
@@ -181,7 +243,9 @@ def main():
         f.write(region_tex + "\n")
     with open(os.path.join(OUT, "tab_binary.tex"), "w") as f:
         f.write(binary_table() + "\n")
-    print("已写出 tab_main.tex / tab_region.tex / tab_binary.tex")
+    with open(os.path.join(OUT, "tab_remedy.tex"), "w") as f:
+        f.write(remedy_table() + "\n")
+    print("已写出 tab_main.tex / tab_region.tex / tab_binary.tex / tab_remedy.tex")
     print("\n=== 主表（前 6 行预览）===")
     print("\n".join(main_tex.splitlines()[:14]))
 

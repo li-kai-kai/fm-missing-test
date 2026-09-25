@@ -41,7 +41,7 @@ model (B). On a binary whole-tumour target B stays within $0.10$ Dice of A
 four-class target it collapses to $0.553$ whole-tumour Dice against A's $0.824$,
 and all $36$ patient-paired comparisons over three seeds, four missing patterns
 and three regions are negative with bootstrap intervals excluding zero. We then
-report a pre-registered four-part diagnostic that rules out overfitting,
+report a pre-registered five-part diagnostic that rules out overfitting,
 capacity, numerical integration and background-distribution mismatch, and
 localises the failure to two mechanisms: the regression target
 $v^\star = (\mathbb{E}[y_1\mid y_t] - y_t)/(1-t)$ amplifies posterior error
@@ -101,7 +101,7 @@ three seeds negative at a $95\%$ bootstrap interval that excludes zero. Because
 the two tasks differ only in the number of output classes, the collapse is not
 explained by data, capacity or budget.
 
-We then run a pre-registered four-part diagnostic to localise the cause, and we
+We then run a pre-registered five-part diagnostic to localise the cause, and we
 report what it excludes as carefully as what it implicates. Overfitting,
 capacity, numerical integration error and background-distribution mismatch are
 each ruled out by an independent measurement. The surviving explanation is a
@@ -233,6 +233,7 @@ sensitivity of the regression target to the posterior estimate is
 \begin{equation}
 \frac{\partial v^\star}{\partial \mathbb{E}[y_1 \mid y_t]}
 \;=\; \frac{1}{1-t},
+\label{eq:sensitivity}
 \end{equation}
 which diverges as $t \to 1$: an error $\varepsilon$ in the posterior produces a
 velocity error $\varepsilon/(1-t)$. The last steps of the ODE are therefore the
@@ -253,7 +254,7 @@ w(v, t) \;=\; \bigl(1 + \alpha\,\mathbb{1}[y_1(v) \neq 0]\bigr)\,
 \end{equation}
 where the first factor raises the weight of foreground voxels by $1+\alpha$
 (addressing the background domination) and the second emphasises late times,
-where the amplification of Eq.~(3) acts. We use $\alpha = 9$, $\gamma = 1$ and
+where the amplification of Eq.~\eqref{eq:sensitivity} acts. We use $\alpha = 9$, $\gamma = 1$ and
 $\epsilon = 0.1$, which bounds the temporal factor by $10$. The weighted loss is
 normalised by the sum of weights so that its scale is comparable to the
 unweighted mean. We evaluate the foreground term, the temporal term and their
@@ -377,7 +378,7 @@ The velocity error is not spread evenly over $t$: per-step RMS error rises by a
 factor of $1.8$ from $0.231$ at $t \approx 0.06$ to $0.416$ at $t \approx 0.94$,
 while the target variance is constant at $1.188$. Equivalently, $R^2$ falls from
 $0.955$ to $0.855$ as $t \to 1$ --- exactly the direction predicted by the
-$1/(1-t)$ factor of Eq.~(3). The error is also not uniform across classes: at
+$1/(1-t)$ factor of Eq.~\eqref{eq:sensitivity}. The error is also not uniform across classes: at
 $t = 0.562$ the per-class MSE is $0.024$ for background against $0.164$,
 $0.143$ and $0.191$ for NCR, ED and ET. Aggregate MSE therefore understates the
 error in the region that decides the argmax by roughly six to eight times. Both
@@ -438,6 +439,8 @@ non-monotonic, with a collapse at $30{,}000$ steps.
 
 \REMEDYSECTION
 
+\input{tables/tab_remedy}
+
 \input{tables/tab_binary}
 
 \section{Discussion}
@@ -451,6 +454,16 @@ generative model gives up $0.27$, $0.34$ and $0.37$ Dice on WT, TC and ET in
 exchange for $14\times$ the inference latency and $2.5\times$ the training time.
 In a clinical pipeline where a volume must be segmented per
 patient per session, this is the dominant practical consideration.
+
+\paragraph{The selection metric can hide the effect you care about.}
+Checkpoints are chosen by a score that averages over the three regions. A change
+that moves regions in opposite directions is therefore diluted by roughly the
+number of regions: the foreground reweighting of Section~\ref{sec:remedy-results}
+costs $0.222$ whole-tumour Dice but only $0.044$ on the region average, and its
+selection score lands within $0.004$ of the baseline. Reported alone, that score
+would suggest the two configurations are equivalent. We report per-region
+breakdowns throughout, and suggest the same for any comparison whose regions can
+move independently --- which, for a global velocity field, they can.
 
 \paragraph{Reproducibility.}
 Re-running the same configuration with only the validation interval changed
@@ -468,8 +481,10 @@ at this scale are not reliable.
 The study uses $100$ patients from a single dataset and a single backbone; the
 four-class conclusion may not transfer to larger models or to datasets whose
 targets are less class-imbalanced. The endpoint-margin measurement covers three
-patients and two missing patterns for one seed. We diagnose and test remedies
-but do not claim a working fix unless the remedy results above support it. Our
+patients and two missing patterns for one seed. We test two reweightings of the
+objective and report that neither recovers the method; we do not claim a working
+fix, and the parameterisation-level alternatives the diagnosis points to are
+left to future work. Our
 HD95 follows the implementation in our codebase --- the $95$th percentile of the
 pooled symmetric surface distances --- and is not the official BraTS scoring
 implementation, so HD95 values should be read comparatively rather than as

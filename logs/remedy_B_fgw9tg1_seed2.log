@@ -1,0 +1,9 @@
+== 训练 方法B seed=2 设备=cuda ==
+[B seed=2] 参数量 = 1,406,500
+[B s2] step 0 smoke: 4 个病例—场景，不参与 checkpoint 选择
+[B s2] step   2000 val score=0.1057 missing_t1=0.1406 missing_t2=0.0921 missing_t1ce=0.0850 missing_flair=0.1052 (7.8 min)
+[B s2] step   4000 val score=0.1942 missing_t1=0.2595 missing_t2=0.1776 missing_t1ce=0.1451 missing_flair=0.1949 (12.3 min)
+[B s2] step   6000 val score=0.2139 missing_t1=0.2681 missing_t2=0.2226 missing_t1ce=0.1917 missing_flair=0.1733 (16.5 min)
+[B s2] step   8000 val score=0.2937 missing_t1=0.3088 missing_t2=0.2235 missing_t1ce=0.2544 missing_flair=0.3881 (20.8 min)
+[B s2] step  10000 val score=0.0587 missing_t1=0.0810 missing_t2=0.0599 missing_t1ce=0.0418 missing_flair=0.0520 (25.0 min)
+[B s2] 完成 best=0.2937@8000 全场景验证=0.2726 总用时33.8min 其中验证23.0min 峰值显存8.78GB

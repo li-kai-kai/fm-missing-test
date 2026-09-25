@@ -1,0 +1,13 @@
+{
+  "method": "B",
+  "seed": 2,
+  "params": 1406500,
+  "best_score": 0.3514370017297144,
+  "best_step": 4000,
+  "train_minutes": 47.59200210968653,
+  "validation_minutes": 35.90744547049204,
+  "best_full_val_score": 0.3731572934030775,
+  "val_mode": "balanced",
+  "peak_gpu_gb": 8.777061376,
+  "run_dir": "/SimCLR/fm_missing_mri_test/experiment_multiclass/runs/B_seed2_fgw9"
+}

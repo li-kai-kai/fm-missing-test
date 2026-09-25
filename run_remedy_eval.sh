@@ -5,6 +5,11 @@
 # /SimCLR/data 已不存在（见 run_eval.py 的 get_affine）。指标计算不受影响。
 # --run-tag 同时决定 runs/ 下的运行目录名和 evaluation/test/<tag>/ 输出目录，
 # 因此修复臂的结果与主结果（evaluation/test/main/）完全隔离，不会互相污染。
+#
+# 注意：这些目录里的 bootstrap.json 会是空 dict。run_eval 的配对比较需要同一次
+# 评估里同时存在 A 与 B，而修复臂只有 B 行，所以它算不出东西——这不代表「没有
+# 差异」。修复臂与基线 B 的逐病例配对 bootstrap 在 paper/remedy_stats.py，
+# 它按 (种子, 缺失场景, 区域) 单元把两边的逐病例 Dice 配对后重采样。
 set -u
 cd "$(dirname "$0")"
 export PYTHONPATH="$(cd .. && pwd)"

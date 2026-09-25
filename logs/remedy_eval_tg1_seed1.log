@@ -1,0 +1,270 @@
+[B seed=1] 载入 best.pt (step=10000, val_score=0.2437)
+  BraTS20_Training_027 missing_t1 WT: Dice=0.5266 HD95=26.94 用时=8.6s 漏检=False
+  BraTS20_Training_027 missing_t1 TC: Dice=0.3539 HD95=36.57 用时=8.6s 漏检=False
+  BraTS20_Training_027 missing_t1 ET: Dice=0.0830 HD95=35.14 用时=8.6s 漏检=False
+  BraTS20_Training_027 missing_t2 WT: Dice=0.5055 HD95=72.17 用时=9.7s 漏检=False
+  BraTS20_Training_027 missing_t2 TC: Dice=0.3393 HD95=86.21 用时=9.7s 漏检=False
+  BraTS20_Training_027 missing_t2 ET: Dice=0.0777 HD95=79.99 用时=9.7s 漏检=False
+  BraTS20_Training_027 missing_t1ce WT: Dice=0.4787 HD95=76.44 用时=12.4s 漏检=False
+  BraTS20_Training_027 missing_t1ce TC: Dice=0.3219 HD95=90.19 用时=12.4s 漏检=False
+  BraTS20_Training_027 missing_t1ce ET: Dice=0.0686 HD95=84.31 用时=12.4s 漏检=False
+  BraTS20_Training_027 missing_flair WT: Dice=0.0000 HD95=84.74 用时=10.4s 漏检=False
+  BraTS20_Training_027 missing_flair TC: Dice=0.0000 HD95=72.74 用时=10.4s 漏检=False
+  BraTS20_Training_027 missing_flair ET: Dice=0.0000 HD95=71.03 用时=10.4s 漏检=False
+  BraTS20_Training_035 missing_t1 WT: Dice=0.4578 HD95=65.79 用时=8.2s 漏检=False
+  BraTS20_Training_035 missing_t1 TC: Dice=0.4390 HD95=66.51 用时=8.2s 漏检=False
+  BraTS20_Training_035 missing_t1 ET: Dice=0.1858 HD95=63.42 用时=8.2s 漏检=False
+  BraTS20_Training_035 missing_t2 WT: Dice=0.4845 HD95=70.77 用时=10.5s 漏检=False
+  BraTS20_Training_035 missing_t2 TC: Dice=0.4550 HD95=79.18 用时=10.5s 漏检=False
+  BraTS20_Training_035 missing_t2 ET: Dice=0.1824 HD95=74.06 用时=10.5s 漏检=False
+  BraTS20_Training_035 missing_t1ce WT: Dice=0.4952 HD95=73.71 用时=10.0s 漏检=False
+  BraTS20_Training_035 missing_t1ce TC: Dice=0.4443 HD95=73.20 用时=10.0s 漏检=False
+  BraTS20_Training_035 missing_t1ce ET: Dice=0.1543 HD95=71.31 用时=10.0s 漏检=False
+  BraTS20_Training_035 missing_flair WT: Dice=0.0000 HD95=67.87 用时=12.3s 漏检=False
+  BraTS20_Training_035 missing_flair TC: Dice=0.0000 HD95=80.21 用时=12.3s 漏检=False
+  BraTS20_Training_035 missing_flair ET: Dice=0.0000 HD95=78.57 用时=12.3s 漏检=False
+  BraTS20_Training_051 missing_t1 WT: Dice=0.7231 HD95=100.11 用时=10.0s 漏检=False
+  BraTS20_Training_051 missing_t1 TC: Dice=0.2439 HD95=109.25 用时=10.0s 漏检=False
+  BraTS20_Training_051 missing_t1 ET: Dice=0.0996 HD95=108.42 用时=10.0s 漏检=False
+  BraTS20_Training_051 missing_t2 WT: Dice=0.7153 HD95=102.10 用时=8.9s 漏检=False
+  BraTS20_Training_051 missing_t2 TC: Dice=0.2372 HD95=109.66 用时=8.9s 漏检=False
+  BraTS20_Training_051 missing_t2 ET: Dice=0.0886 HD95=109.20 用时=8.9s 漏检=False
+  BraTS20_Training_051 missing_t1ce WT: Dice=0.7152 HD95=99.69 用时=11.0s 漏检=False
+  BraTS20_Training_051 missing_t1ce TC: Dice=0.2223 HD95=109.27 用时=11.0s 漏检=False
+  BraTS20_Training_051 missing_t1ce ET: Dice=0.0336 HD95=108.47 用时=11.0s 漏检=False
+  BraTS20_Training_051 missing_flair WT: Dice=0.1463 HD95=98.35 用时=12.0s 漏检=False
+  BraTS20_Training_051 missing_flair TC: Dice=0.0951 HD95=109.23 用时=12.0s 漏检=False
+  BraTS20_Training_051 missing_flair ET: Dice=0.0779 HD95=109.08 用时=12.0s 漏检=False
+  BraTS20_Training_052 missing_t1 WT: Dice=0.4428 HD95=87.71 用时=10.1s 漏检=False
+  BraTS20_Training_052 missing_t1 TC: Dice=0.3504 HD95=94.80 用时=10.1s 漏检=False
+  BraTS20_Training_052 missing_t1 ET: Dice=0.1841 HD95=92.25 用时=10.1s 漏检=False
+  BraTS20_Training_052 missing_t2 WT: Dice=0.4899 HD95=134.02 用时=6.0s 漏检=False
+  BraTS20_Training_052 missing_t2 TC: Dice=0.3961 HD95=130.85 用时=6.0s 漏检=False
+  BraTS20_Training_052 missing_t2 ET: Dice=0.2114 HD95=126.73 用时=6.0s 漏检=False
+  BraTS20_Training_052 missing_t1ce WT: Dice=0.5393 HD95=141.99 用时=9.5s 漏检=False
+  BraTS20_Training_052 missing_t1ce TC: Dice=0.3797 HD95=144.81 用时=9.5s 漏检=False
+  BraTS20_Training_052 missing_t1ce ET: Dice=0.1567 HD95=132.89 用时=9.5s 漏检=False
+  BraTS20_Training_052 missing_flair WT: Dice=0.0000 HD95=119.81 用时=7.9s 漏检=False
+  BraTS20_Training_052 missing_flair TC: Dice=0.0000 HD95=105.76 用时=7.9s 漏检=False
+  BraTS20_Training_052 missing_flair ET: Dice=0.0000 HD95=118.77 用时=7.9s 漏检=False
+  BraTS20_Training_054 missing_t1 WT: Dice=0.4767 HD95=74.47 用时=12.1s 漏检=False
+  BraTS20_Training_054 missing_t1 TC: Dice=0.4748 HD95=86.66 用时=12.1s 漏检=False
+  BraTS20_Training_054 missing_t1 ET: Dice=0.2554 HD95=86.10 用时=12.1s 漏检=False
+  BraTS20_Training_054 missing_t2 WT: Dice=0.5564 HD95=77.67 用时=11.6s 漏检=False
+  BraTS20_Training_054 missing_t2 TC: Dice=0.5557 HD95=89.45 用时=11.6s 漏检=False
+  BraTS20_Training_054 missing_t2 ET: Dice=0.2739 HD95=88.06 用时=11.6s 漏检=False
+  BraTS20_Training_054 missing_t1ce WT: Dice=0.5973 HD95=78.71 用时=6.0s 漏检=False
+  BraTS20_Training_054 missing_t1ce TC: Dice=0.5706 HD95=90.38 用时=6.0s 漏检=False
+  BraTS20_Training_054 missing_t1ce ET: Dice=0.2377 HD95=88.89 用时=6.0s 漏检=False
+  BraTS20_Training_054 missing_flair WT: Dice=0.0000 HD95=77.72 用时=6.0s 漏检=False
+  BraTS20_Training_054 missing_flair TC: Dice=0.0000 HD95=90.58 用时=6.0s 漏检=False
+  BraTS20_Training_054 missing_flair ET: Dice=0.0000 HD95=88.74 用时=6.0s 漏检=False
+  BraTS20_Training_057 missing_t1 WT: Dice=0.6194 HD95=95.21 用时=10.9s 漏检=False
+  BraTS20_Training_057 missing_t1 TC: Dice=0.1895 HD95=105.61 用时=10.9s 漏检=False
+  BraTS20_Training_057 missing_t1 ET: Dice=0.0432 HD95=101.86 用时=10.9s 漏检=False
+  BraTS20_Training_057 missing_t2 WT: Dice=0.6500 HD95=101.81 用时=6.6s 漏检=False
+  BraTS20_Training_057 missing_t2 TC: Dice=0.2225 HD95=109.12 用时=6.6s 漏检=False
+  BraTS20_Training_057 missing_t2 ET: Dice=0.0458 HD95=104.81 用时=6.6s 漏检=False
+  BraTS20_Training_057 missing_t1ce WT: Dice=0.6176 HD95=105.65 用时=8.1s 漏检=False
+  BraTS20_Training_057 missing_t1ce TC: Dice=0.1822 HD95=120.32 用时=8.1s 漏检=False
+  BraTS20_Training_057 missing_t1ce ET: Dice=0.0211 HD95=117.19 用时=8.1s 漏检=False
+  BraTS20_Training_057 missing_flair WT: Dice=0.0000 HD95=123.21 用时=12.0s 漏检=False
+  BraTS20_Training_057 missing_flair TC: Dice=0.0000 HD95=109.71 用时=12.0s 漏检=False
+  BraTS20_Training_057 missing_flair ET: Dice=0.0000 HD95=108.49 用时=12.0s 漏检=False
+  BraTS20_Training_086 missing_t1 WT: Dice=0.2988 HD95=95.06 用时=12.9s 漏检=False
+  BraTS20_Training_086 missing_t1 TC: Dice=0.0179 HD95=106.54 用时=12.9s 漏检=False
+  BraTS20_Training_086 missing_t1 ET: Dice=0.0055 HD95=107.04 用时=12.9s 漏检=False
+  BraTS20_Training_086 missing_t2 WT: Dice=0.3037 HD95=134.63 用时=6.0s 漏检=False
+  BraTS20_Training_086 missing_t2 TC: Dice=0.0170 HD95=148.29 用时=6.0s 漏检=False
+  BraTS20_Training_086 missing_t2 ET: Dice=0.0064 HD95=138.98 用时=6.0s 漏检=False
+  BraTS20_Training_086 missing_t1ce WT: Dice=0.3845 HD95=135.84 用时=8.7s 漏检=False
+  BraTS20_Training_086 missing_t1ce TC: Dice=0.0246 HD95=137.58 用时=8.7s 漏检=False
+  BraTS20_Training_086 missing_t1ce ET: Dice=0.0058 HD95=127.37 用时=8.7s 漏检=False
+  BraTS20_Training_086 missing_flair WT: Dice=0.0000 HD95=62.75 用时=8.3s 漏检=False
+  BraTS20_Training_086 missing_flair TC: Dice=0.0000 HD95=70.10 用时=8.3s 漏检=False
+  BraTS20_Training_086 missing_flair ET: Dice=0.0000 HD95=72.19 用时=8.3s 漏检=False
+  BraTS20_Training_108 missing_t1 WT: Dice=0.2779 HD95=60.75 用时=10.7s 漏检=False
+  BraTS20_Training_108 missing_t1 TC: Dice=0.2511 HD95=68.99 用时=10.7s 漏检=False
+  BraTS20_Training_108 missing_t1 ET: Dice=0.2965 HD95=68.36 用时=10.7s 漏检=False
+  BraTS20_Training_108 missing_t2 WT: Dice=0.2488 HD95=65.08 用时=11.3s 漏检=False
+  BraTS20_Training_108 missing_t2 TC: Dice=0.2247 HD95=75.53 用时=11.3s 漏检=False
+  BraTS20_Training_108 missing_t2 ET: Dice=0.2758 HD95=74.59 用时=11.3s 漏检=False
+  BraTS20_Training_108 missing_t1ce WT: Dice=0.3123 HD95=61.71 用时=8.2s 漏检=False
+  BraTS20_Training_108 missing_t1ce TC: Dice=0.2641 HD95=72.68 用时=8.2s 漏检=False
+  BraTS20_Training_108 missing_t1ce ET: Dice=0.2696 HD95=72.39 用时=8.2s 漏检=False
+  BraTS20_Training_108 missing_flair WT: Dice=0.0000 HD95=87.74 用时=8.3s 漏检=False
+  BraTS20_Training_108 missing_flair TC: Dice=0.0000 HD95=114.37 用时=8.3s 漏检=False
+  BraTS20_Training_108 missing_flair ET: Dice=0.0000 HD95=111.32 用时=8.3s 漏检=False
+  BraTS20_Training_138 missing_t1 WT: Dice=0.7517 HD95=66.80 用时=13.1s 漏检=False
+  BraTS20_Training_138 missing_t1 TC: Dice=0.3371 HD95=79.72 用时=13.1s 漏检=False
+  BraTS20_Training_138 missing_t1 ET: Dice=0.1707 HD95=76.90 用时=13.1s 漏检=False
+  BraTS20_Training_138 missing_t2 WT: Dice=0.7130 HD95=70.46 用时=9.8s 漏检=False
+  BraTS20_Training_138 missing_t2 TC: Dice=0.2878 HD95=80.59 用时=9.8s 漏检=False
+  BraTS20_Training_138 missing_t2 ET: Dice=0.1369 HD95=79.19 用时=9.8s 漏检=False
+  BraTS20_Training_138 missing_t1ce WT: Dice=0.7102 HD95=71.49 用时=8.7s 漏检=False
+  BraTS20_Training_138 missing_t1ce TC: Dice=0.3230 HD95=88.62 用时=8.7s 漏检=False
+  BraTS20_Training_138 missing_t1ce ET: Dice=0.1313 HD95=86.54 用时=8.7s 漏检=False
+  BraTS20_Training_138 missing_flair WT: Dice=0.0620 HD95=67.47 用时=7.6s 漏检=False
+  BraTS20_Training_138 missing_flair TC: Dice=0.0014 HD95=80.12 用时=7.6s 漏检=False
+  BraTS20_Training_138 missing_flair ET: Dice=0.0011 HD95=77.86 用时=7.6s 漏检=False
+  BraTS20_Training_141 missing_t1 WT: Dice=0.4878 HD95=110.10 用时=8.2s 漏检=False
+  BraTS20_Training_141 missing_t1 TC: Dice=0.1555 HD95=112.28 用时=8.2s 漏检=False
+  BraTS20_Training_141 missing_t1 ET: Dice=0.0075 HD95=113.12 用时=8.2s 漏检=False
+  BraTS20_Training_141 missing_t2 WT: Dice=0.2935 HD95=111.14 用时=8.3s 漏检=False
+  BraTS20_Training_141 missing_t2 TC: Dice=0.0708 HD95=112.98 用时=8.3s 漏检=False
+  BraTS20_Training_141 missing_t2 ET: Dice=0.0041 HD95=113.50 用时=8.3s 漏检=False
+  BraTS20_Training_141 missing_t1ce WT: Dice=0.1772 HD95=106.85 用时=8.2s 漏检=False
+  BraTS20_Training_141 missing_t1ce TC: Dice=0.0629 HD95=109.30 用时=8.2s 漏检=False
+  BraTS20_Training_141 missing_t1ce ET: Dice=0.0035 HD95=111.36 用时=8.2s 漏检=False
+  BraTS20_Training_141 missing_flair WT: Dice=0.0000 HD95=117.84 用时=10.5s 漏检=False
+  BraTS20_Training_141 missing_flair TC: Dice=0.0000 HD95=109.95 用时=10.5s 漏检=False
+  BraTS20_Training_141 missing_flair ET: Dice=0.0000 HD95=109.74 用时=10.5s 漏检=False
+  BraTS20_Training_154 missing_t1 WT: Dice=0.6191 HD95=85.61 用时=8.3s 漏检=False
+  BraTS20_Training_154 missing_t1 TC: Dice=0.5046 HD95=96.30 用时=8.3s 漏检=False
+  BraTS20_Training_154 missing_t1 ET: Dice=0.1462 HD95=93.73 用时=8.3s 漏检=False
+  BraTS20_Training_154 missing_t2 WT: Dice=0.5312 HD95=83.83 用时=7.3s 漏检=False
+  BraTS20_Training_154 missing_t2 TC: Dice=0.3927 HD95=94.02 用时=7.3s 漏检=False
+  BraTS20_Training_154 missing_t2 ET: Dice=0.1105 HD95=90.67 用时=7.3s 漏检=False
+  BraTS20_Training_154 missing_t1ce WT: Dice=0.5102 HD95=83.38 用时=9.4s 漏检=False
+  BraTS20_Training_154 missing_t1ce TC: Dice=0.4159 HD95=94.81 用时=9.4s 漏检=False
+  BraTS20_Training_154 missing_t1ce ET: Dice=0.0974 HD95=92.00 用时=9.4s 漏检=False
+  BraTS20_Training_154 missing_flair WT: Dice=0.0000 HD95=91.32 用时=7.2s 漏检=False
+  BraTS20_Training_154 missing_flair TC: Dice=0.0000 HD95=103.41 用时=7.2s 漏检=False
+  BraTS20_Training_154 missing_flair ET: Dice=0.0000 HD95=112.38 用时=7.2s 漏检=False
+  BraTS20_Training_165 missing_t1 WT: Dice=0.7910 HD95=7.62 用时=8.7s 漏检=False
+  BraTS20_Training_165 missing_t1 TC: Dice=0.4224 HD95=24.70 用时=8.7s 漏检=False
+  BraTS20_Training_165 missing_t1 ET: Dice=0.2825 HD95=22.52 用时=8.7s 漏检=False
+  BraTS20_Training_165 missing_t2 WT: Dice=0.7777 HD95=29.16 用时=8.8s 漏检=False
+  BraTS20_Training_165 missing_t2 TC: Dice=0.4099 HD95=27.85 用时=8.8s 漏检=False
+  BraTS20_Training_165 missing_t2 ET: Dice=0.2549 HD95=25.81 用时=8.8s 漏检=False
+  BraTS20_Training_165 missing_t1ce WT: Dice=0.7873 HD95=64.72 用时=9.1s 漏检=False
+  BraTS20_Training_165 missing_t1ce TC: Dice=0.4167 HD95=27.59 用时=9.1s 漏检=False
+  BraTS20_Training_165 missing_t1ce ET: Dice=0.1492 HD95=25.32 用时=9.1s 漏检=False
+  BraTS20_Training_165 missing_flair WT: Dice=0.0000 HD95=61.01 用时=12.6s 漏检=False
+  BraTS20_Training_165 missing_flair TC: Dice=0.0000 HD95=51.23 用时=12.6s 漏检=False
+  BraTS20_Training_165 missing_flair ET: Dice=0.0000 HD95=50.05 用时=12.6s 漏检=False
+  BraTS20_Training_179 missing_t1 WT: Dice=0.6894 HD95=138.08 用时=10.5s 漏检=False
+  BraTS20_Training_179 missing_t1 TC: Dice=0.5475 HD95=144.09 用时=10.5s 漏检=False
+  BraTS20_Training_179 missing_t1 ET: Dice=0.4422 HD95=141.31 用时=10.5s 漏检=False
+  BraTS20_Training_179 missing_t2 WT: Dice=0.5788 HD95=137.84 用时=8.7s 漏检=False
+  BraTS20_Training_179 missing_t2 TC: Dice=0.4646 HD95=142.98 用时=8.7s 漏检=False
+  BraTS20_Training_179 missing_t2 ET: Dice=0.3119 HD95=140.83 用时=8.7s 漏检=False
+  BraTS20_Training_179 missing_t1ce WT: Dice=0.5798 HD95=136.89 用时=8.9s 漏检=False
+  BraTS20_Training_179 missing_t1ce TC: Dice=0.4575 HD95=142.73 用时=8.9s 漏检=False
+  BraTS20_Training_179 missing_t1ce ET: Dice=0.2624 HD95=140.26 用时=8.9s 漏检=False
+  BraTS20_Training_179 missing_flair WT: Dice=0.0000 HD95=136.69 用时=8.6s 漏检=False
+  BraTS20_Training_179 missing_flair TC: Dice=0.0000 HD95=142.35 用时=8.6s 漏检=False
+  BraTS20_Training_179 missing_flair ET: Dice=0.0000 HD95=138.36 用时=8.6s 漏检=False
+  BraTS20_Training_197 missing_t1 WT: Dice=0.8291 HD95=10.00 用时=7.0s 漏检=False
+  BraTS20_Training_197 missing_t1 TC: Dice=0.6603 HD95=13.15 用时=7.0s 漏检=False
+  BraTS20_Training_197 missing_t1 ET: Dice=0.2137 HD95=11.05 用时=7.0s 漏检=False
+  BraTS20_Training_197 missing_t2 WT: Dice=0.8100 HD95=11.75 用时=8.3s 漏检=False
+  BraTS20_Training_197 missing_t2 TC: Dice=0.6066 HD95=14.32 用时=8.3s 漏检=False
+  BraTS20_Training_197 missing_t2 ET: Dice=0.1637 HD95=12.12 用时=8.3s 漏检=False
+  BraTS20_Training_197 missing_t1ce WT: Dice=0.7956 HD95=61.03 用时=7.5s 漏检=False
+  BraTS20_Training_197 missing_t1ce TC: Dice=0.6319 HD95=16.03 用时=7.5s 漏检=False
+  BraTS20_Training_197 missing_t1ce ET: Dice=0.1357 HD95=13.75 用时=7.5s 漏检=False
+  BraTS20_Training_197 missing_flair WT: Dice=0.0000 HD95=101.44 用时=8.3s 漏检=False
+  BraTS20_Training_197 missing_flair TC: Dice=0.0000 HD95=126.42 用时=8.3s 漏检=False
+  BraTS20_Training_197 missing_flair ET: Dice=0.0000 HD95=139.27 用时=8.3s 漏检=False
+  BraTS20_Training_236 missing_t1 WT: Dice=0.6799 HD95=78.05 用时=11.6s 漏检=False
+  BraTS20_Training_236 missing_t1 TC: Dice=0.3289 HD95=87.44 用时=11.6s 漏检=False
+  BraTS20_Training_236 missing_t1 ET: Dice=0.0852 HD95=84.92 用时=11.6s 漏检=False
+  BraTS20_Training_236 missing_t2 WT: Dice=0.6543 HD95=77.00 用时=8.3s 漏检=False
+  BraTS20_Training_236 missing_t2 TC: Dice=0.3795 HD95=86.43 用时=8.3s 漏检=False
+  BraTS20_Training_236 missing_t2 ET: Dice=0.0987 HD95=84.81 用时=8.3s 漏检=False
+  BraTS20_Training_236 missing_t1ce WT: Dice=0.6714 HD95=78.49 用时=9.2s 漏检=False
+  BraTS20_Training_236 missing_t1ce TC: Dice=0.3159 HD95=87.76 用时=9.2s 漏检=False
+  BraTS20_Training_236 missing_t1ce ET: Dice=0.0503 HD95=85.26 用时=9.2s 漏检=False
+  BraTS20_Training_236 missing_flair WT: Dice=0.0000 HD95=82.04 用时=7.0s 漏检=False
+  BraTS20_Training_236 missing_flair TC: Dice=0.0000 HD95=92.74 用时=7.0s 漏检=False
+  BraTS20_Training_236 missing_flair ET: Dice=0.0000 HD95=90.01 用时=7.0s 漏检=False
+  BraTS20_Training_237 missing_t1 WT: Dice=0.7035 HD95=82.14 用时=11.9s 漏检=False
+  BraTS20_Training_237 missing_t1 TC: Dice=0.2895 HD95=100.50 用时=11.9s 漏检=False
+  BraTS20_Training_237 missing_t1 ET: Dice=0.1391 HD95=97.31 用时=11.9s 漏检=False
+  BraTS20_Training_237 missing_t2 WT: Dice=0.6940 HD95=81.57 用时=9.8s 漏检=False
+  BraTS20_Training_237 missing_t2 TC: Dice=0.2639 HD95=99.99 用时=9.8s 漏检=False
+  BraTS20_Training_237 missing_t2 ET: Dice=0.1039 HD95=97.64 用时=9.8s 漏检=False
+  BraTS20_Training_237 missing_t1ce WT: Dice=0.6368 HD95=82.91 用时=6.8s 漏检=False
+  BraTS20_Training_237 missing_t1ce TC: Dice=0.2542 HD95=101.44 用时=6.8s 漏检=False
+  BraTS20_Training_237 missing_t1ce ET: Dice=0.0458 HD95=100.29 用时=6.8s 漏检=False
+  BraTS20_Training_237 missing_flair WT: Dice=0.2422 HD95=63.53 用时=8.2s 漏检=False
+  BraTS20_Training_237 missing_flair TC: Dice=0.0507 HD95=68.21 用时=8.2s 漏检=False
+  BraTS20_Training_237 missing_flair ET: Dice=0.0386 HD95=69.54 用时=8.2s 漏检=False
+  BraTS20_Training_242 missing_t1 WT: Dice=0.7317 HD95=43.67 用时=10.4s 漏检=False
+  BraTS20_Training_242 missing_t1 TC: Dice=0.7284 HD95=16.91 用时=10.4s 漏检=False
+  BraTS20_Training_242 missing_t1 ET: Dice=0.3754 HD95=10.44 用时=10.4s 漏检=False
+  BraTS20_Training_242 missing_t2 WT: Dice=0.5963 HD95=59.12 用时=9.2s 漏检=False
+  BraTS20_Training_242 missing_t2 TC: Dice=0.6328 HD95=60.80 用时=9.2s 漏检=False
+  BraTS20_Training_242 missing_t2 ET: Dice=0.3259 HD95=57.69 用时=9.2s 漏检=False
+  BraTS20_Training_242 missing_t1ce WT: Dice=0.5721 HD95=56.17 用时=10.5s 漏检=False
+  BraTS20_Training_242 missing_t1ce TC: Dice=0.6382 HD95=57.04 用时=10.5s 漏检=False
+  BraTS20_Training_242 missing_t1ce ET: Dice=0.2658 HD95=55.71 用时=10.5s 漏检=False
+  BraTS20_Training_242 missing_flair WT: Dice=0.0000 HD95=99.06 用时=8.4s 漏检=False
+  BraTS20_Training_242 missing_flair TC: Dice=0.0000 HD95=116.57 用时=8.4s 漏检=False
+  BraTS20_Training_242 missing_flair ET: Dice=0.0000 HD95=139.19 用时=8.4s 漏检=False
+  BraTS20_Training_275 missing_t1 WT: Dice=0.2228 HD95=68.99 用时=12.1s 漏检=False
+  BraTS20_Training_275 missing_t1 TC: Dice=0.1021 HD95=73.55 用时=12.1s 漏检=False
+  BraTS20_Training_275 missing_t1 ET: Dice=0.0000 HD95=nan 用时=12.1s 漏检=False
+  BraTS20_Training_275 missing_t2 WT: Dice=0.2127 HD95=68.32 用时=8.0s 漏检=False
+  BraTS20_Training_275 missing_t2 TC: Dice=0.0968 HD95=72.59 用时=8.0s 漏检=False
+  BraTS20_Training_275 missing_t2 ET: Dice=0.0000 HD95=nan 用时=8.0s 漏检=False
+  BraTS20_Training_275 missing_t1ce WT: Dice=0.2257 HD95=68.18 用时=8.5s 漏检=False
+  BraTS20_Training_275 missing_t1ce TC: Dice=0.0996 HD95=72.84 用时=8.5s 漏检=False
+  BraTS20_Training_275 missing_t1ce ET: Dice=0.0000 HD95=nan 用时=8.5s 漏检=False
+  BraTS20_Training_275 missing_flair WT: Dice=0.0000 HD95=64.52 用时=9.0s 漏检=False
+  BraTS20_Training_275 missing_flair TC: Dice=0.0000 HD95=61.98 用时=9.0s 漏检=False
+  BraTS20_Training_275 missing_flair ET: Dice=0.0000 HD95=nan 用时=9.0s 漏检=False
+  BraTS20_Training_318 missing_t1 WT: Dice=0.7002 HD95=53.05 用时=10.7s 漏检=False
+  BraTS20_Training_318 missing_t1 TC: Dice=0.5307 HD95=24.54 用时=10.7s 漏检=False
+  BraTS20_Training_318 missing_t1 ET: Dice=0.0303 HD95=33.05 用时=10.7s 漏检=False
+  BraTS20_Training_318 missing_t2 WT: Dice=0.6610 HD95=82.90 用时=11.7s 漏检=False
+  BraTS20_Training_318 missing_t2 TC: Dice=0.4751 HD95=32.62 用时=11.7s 漏检=False
+  BraTS20_Training_318 missing_t2 ET: Dice=0.0324 HD95=90.97 用时=11.7s 漏检=False
+  BraTS20_Training_318 missing_t1ce WT: Dice=0.6436 HD95=89.06 用时=8.3s 漏检=False
+  BraTS20_Training_318 missing_t1ce TC: Dice=0.4999 HD95=88.33 用时=8.3s 漏检=False
+  BraTS20_Training_318 missing_t1ce ET: Dice=0.0249 HD95=121.99 用时=8.3s 漏检=False
+  BraTS20_Training_318 missing_flair WT: Dice=0.3382 HD95=53.74 用时=8.9s 漏检=False
+  BraTS20_Training_318 missing_flair TC: Dice=0.2843 HD95=22.91 用时=8.9s 漏检=False
+  BraTS20_Training_318 missing_flair ET: Dice=0.0154 HD95=32.17 用时=8.9s 漏检=False
+  BraTS20_Training_329 missing_t1 WT: Dice=0.4074 HD95=92.81 用时=12.1s 漏检=False
+  BraTS20_Training_329 missing_t1 TC: Dice=0.3729 HD95=67.39 用时=12.1s 漏检=False
+  BraTS20_Training_329 missing_t1 ET: Dice=0.0000 HD95=nan 用时=12.1s 漏检=False
+  BraTS20_Training_329 missing_t2 WT: Dice=0.3249 HD95=97.12 用时=10.6s 漏检=False
+  BraTS20_Training_329 missing_t2 TC: Dice=0.2474 HD95=67.42 用时=10.6s 漏检=False
+  BraTS20_Training_329 missing_t2 ET: Dice=0.0000 HD95=nan 用时=10.6s 漏检=False
+  BraTS20_Training_329 missing_t1ce WT: Dice=0.2903 HD95=102.19 用时=9.7s 漏检=False
+  BraTS20_Training_329 missing_t1ce TC: Dice=0.2844 HD95=70.67 用时=9.7s 漏检=False
+  BraTS20_Training_329 missing_t1ce ET: Dice=0.0000 HD95=nan 用时=9.7s 漏检=False
+  BraTS20_Training_329 missing_flair WT: Dice=0.0000 HD95=150.08 用时=6.8s 漏检=False
+  BraTS20_Training_329 missing_flair TC: Dice=0.0000 HD95=131.48 用时=6.8s 漏检=False
+  BraTS20_Training_329 missing_flair ET: Dice=0.0000 HD95=nan 用时=6.8s 漏检=False
+
+== 汇总 ==
+model seed scenario             Dice    漏检   HD95失败     秒/例
+    B    0 missing_flair  ET 0.0479±0.0534     0        2    10.1
+    B    0 missing_flair  TC 0.0860±0.0913     0        0    10.1
+    B    0 missing_flair  WT 0.1028±0.0646     0        0    10.1
+    B    0 missing_t1  ET 0.1141±0.0767     0        2     9.7
+    B    0 missing_t1  TC 0.2134±0.1256     0        0     9.7
+    B    0 missing_t1  WT 0.2707±0.1332     0        0     9.7
+    B    0 missing_t1ce  ET 0.0854±0.0671     0        2    10.0
+    B    0 missing_t1ce  TC 0.2618±0.1442     0        0    10.0
+    B    0 missing_t1ce  WT 0.2867±0.1387     0        0    10.0
+    B    0 missing_t2  ET 0.0888±0.0672     0        2     9.9
+    B    0 missing_t2  TC 0.1711±0.1263     0        0     9.9
+    B    0 missing_t2  WT 0.2135±0.1126     0        0     9.9
+    B    1 missing_flair  ET 0.0066±0.0191     0        2     9.0
+    B    1 missing_flair  TC 0.0216±0.0662     0        0     9.0
+    B    1 missing_flair  WT 0.0394±0.0938     0        0     9.0
+    B    1 missing_t1  ET 0.1523±0.1290     0        2    10.4
+    B    1 missing_t1  TC 0.3650±0.1807     0        0    10.4
+    B    1 missing_t1  WT 0.5718±0.1801     0        0    10.4
+    B    1 missing_t1ce  ET 0.1057±0.0953     0        2     8.9
+    B    1 missing_t1ce  TC 0.3405±0.1749     0        0     8.9
+    B    1 missing_t1ce  WT 0.5370±0.1793     0        0     8.9
+    B    1 missing_t2  ET 0.1352±0.1093     0        2     9.0
+    B    1 missing_t2  TC 0.3388±0.1707     0        0     9.0
+    B    1 missing_t2  WT 0.5401±0.1807     0        0     9.0
+
+总用时 25.5 min -> /SimCLR/fm_missing_mri_test/experiment_multiclass
